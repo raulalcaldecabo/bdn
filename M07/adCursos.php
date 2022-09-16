@@ -12,106 +12,102 @@
 
 include("funciones.php");
 
-if(isset($_POST["idCursos"])){
-    $delete = $_POST["idCursos"];
-    $cantidad = count($delete);
-    //nos conectamos a la base de datos
-    $conexion = mysqli_connect("Localhost", "root", "", "cursos");
-    if ($conexion == false){
-        mysqli_connect_error();
-    }
-    else{
-        //generamos la query
-        $sql1 = "SELECT * from cursos";
-        //la enviamos a la base de datos
-        $consulta = mysqli_query($conexion, $sql1);
-        if ($consulta == false){
-            mysqli_error($conexion);
-        }
-        else{
-            $numlineas = mysqli_num_rows($consulta);
-            //funcion para iterar mostrando los cursos borrados 
-            mostrarBorrados($consulta,$delete);
-            // convierto el array en un String separado por , así si son 1000 registros no debo hacer un for each y es más eficiente
-            $delete = implode(",",$delete);
-            //aquí aplico en el paréntesis los números con, para ser más eficiente.
-            $sql = "DELETE FROM cursos WHERE Numero IN ($delete)";
-            $borrado = mysqli_query($conexion, $sql);
-            echo "<h2> Se han borrado $cantidad cursos </h2>";
-            echo "<br/>";
-            echo "<a href='adCursos.php'>Volver a la tabla de cursos</a>";
-        }
-    }
-}
-
-else if(isset($_GET['Numero'])){
-    $eliminar = $_GET['Numero'];
-    $conexion = mysqli_connect("Localhost", "root", "", "empresa");
-    if ($conexion == false){
-        mysqli_connect_error();
-    }
-    else{
-        //funcion para borrar un curso
-        borrarEmpleado($eliminar, $conexion);
-        ?>
-            <meta http-equiv="refresh" content="0; url= adCursos.php">
-            <?php
-    }
-}
-
-else{
-    //nos conectamos a la base de datos
-    $conexion = mysqli_connect("Localhost", "root", "", "cursosbdn");
-    if ($conexion == false){
-        mysqli_connect_error();
-    }
-    else{
-        //generamos la query
-        $sql = "SELECT * from cursos";
-        //la enviamos a la base de datos
-        $consulta = mysqli_query($conexion, $sql);
-        if ($consulta == false){
-            mysqli_error($conexion);
-        }
-        else{
-            $numlineas = mysqli_num_rows($consulta);
-            echo "<h1> Cursos BDN </h1>";
-            echo "<form action = Borrar.php method = 'POST' name = 'Borrado'>";
-            echo "<table>";
-            echo "<tr>";
-            echo "<th>Eliminar</th>";
-            echo "<th>Código</th>";
-            echo "<th>Nombre</th>";
-            echo "<th>Descripción</th>";
-            echo "<th>Horas</th>";
-            echo "<th>Inicio</th>";
-            echo "<th>Final</th>";
-            echo "<th>Profesor</th>";
-            echo "<th>Editar</th>";
-            echo "<th>Eliminar</th>";
-            echo "</tr>";
-
-            foreach($consulta as $curso => $campo){
-                $id=$campo["codigoCurso"];
-                echo "<tr>";
-                echo "<td> <input type='checkbox' name='idCursos[]' value ='$id'> </td>";
-                foreach($campo as $dato){
-                    echo "<td> $dato </td>";
-                }
-                echo "<td> <a href='modificarCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
-                echo "<td> <a href='borrarCurso.php?Numero=".$id."'> <img src='imagen/papelera.png' width='80'></a> </td>";
-                echo "</tr>";
+ // comprobamos si el usuario está conectado
+ if(isset($_SESSION["rol"])){
+    if($_SESSION["rol"] == 1){
+        $linea = $_SESSION["usuario"];
+        if($_REQUEST){
+            $email = $_REQUEST["email"];
+            $password = $_REQUEST["password"];
+            $nombre = $_REQUEST["nombre"];
+            $idioma1 = $_REQUEST["IdiomaNativo"];
+            $idioma2 = $_REQUEST["idiomaAprender"];
+            //nos conectamos a la base de datos
+            $conexion = mysqli_connect("Localhost", "root", "", "lingua");
+            if ($conexion == false){
+                mysqli_connect_error();
             }
-
-            echo "<tr>";
-            echo "</tr>";
-            echo "</table>";
-            echo "<input type='submit' value='eliminar'>";
-            echo "</form>";
+            else{
+                //generamos la query para saber si está en la base de datos
+                $sql = "SELECT * from usuarios where  email = '$email'";
+            }
+            //la enviamos a la base de datos
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            //si existe el mail le informamos que está registrado y lo devolvemos a registro
+            if(mysqli_num_rows($consulta)>0){
+                echo 'Ese usuario ya está registrado';
+                ?>
+                <meta http-equiv="refresh" content="5; url= registro.php">
+                <?php
+            }
+            //si no existe lo ingresamos en la base de datos
+            else{
+                $sql2 = "INSERT INTO usuarios (email, password, nombre, IdiomaNativo, idiomaAprender) values('$email', $password, '$nombre', '$idioma1', '$idioma2') ";
+                $consulta = mysqli_query($conexion, $sql2);
+                if ($consulta == false){
+                    mysqli_error($conexion);
+                }
+                
+                echo 'Enhora buena ya puedes acceder a Lingua';
+                ?>
+                <meta http-equiv="refresh" content="5; url= validacion.php">
+                <?php
+            }
+            mysqli_close($conexion);    
         }
-
+        //si usuario entra nuevo a la página se encuentra el formulario de login.
+        else{
+            ?>
+        <h1>Añadir curso</h1>
+        <form action="adCursos.php" method="POST"  name="dades">
+            <table>
+                 <tr>
+                    <td>Código</td> 
+                    <td><input type="text" name="codigoCurso" size="10" maxlength="20"><br/></td>
+                </tr>
+                <tr>
+                    <td>Nombre</td>
+                    <td> <input type="text" name="nombre" size="50" maxlength="9"></td>
+                </tr>
+                <tr>
+                    <td>descripcion</td> 
+                    <td><input type="text" name="descripcion" size="50" maxlength="50"><br/></td>
+                </tr>
+                <tr>
+                    <td>Horas</td>
+                    <td> <input type="text" name="Horas" size="50" maxlength="20"></td>
+                </tr>
+                <tr>
+                    <td>Fecha inicio</td>
+                    <td> <input type="text" name="fechaInicio" size="50" maxlength="20"></td>
+                </tr>
+                <tr>
+                    <td>Fecha final</td>
+                    <td> <input type="text" name="fechaFinal" size="50" maxlength="20"></td>
+                </tr>
+                <tr>
+                    <td>profesor</td>
+                    <td> <input type="text" name="profesor" size="50" maxlength="20"></td>
+                </tr>                    
+            </table>
+            <br/>
+            <div class="pie">
+                <input type="submit" name="registrarse" value="registrarse">
+                <input type="reset" value="reset">
+            </div>                   
+        </form>
+        <?php
+        } 
     }
-
+    else{
+        echo "<h1> Has de estar validado para ver esta página </h1>";
+    }
+}
+else{
+    echo "<h1> Has de estar validado para ver esta página </h1>";
 }
 
 

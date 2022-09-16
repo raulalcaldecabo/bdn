@@ -17,6 +17,29 @@
     if(isset($_SESSION["rol"])){
         if($_SESSION["rol"] == 1){
             $linea = $_SESSION["usuario"];
+            $BBDD = "cursosbdn"
+            $conexion = conectarBBDD($BBDD);
+            //generamos la query
+            $sql = "SELECT * from cursos";
+            //la enviamos a la base de datos
+            $consultaCursos = mysqli_query($conexion, $sql);
+            if ($consultaCursos == false){
+            mysqli_error($conexion);
+            }
+            else{
+            $_SESSION["cursos"] = $consulta;
+            $BBDD = "cursosbdn"
+            $conexion = conectarBBDD($BBDD);
+            //generamos la query
+            $sql = "SELECT * from profesores";
+            //la enviamos a la base de datos
+            $consultaProfes = mysqli_query($conexion, $sql);
+            if ($consultaProfes == false){
+            mysqli_error($conexion);
+            }
+            else{
+            $_SESSION["profesores"] = $consulta;
+            desconectarBBDD($conexion);
             echo "<h1> ¿Qué gestión desea realizar? </h1>";
             echo "<a href='modCursos.php'> modificar cursos </a></br>";
             echo "<a href='modProf.php'> modificar profesores </a>";
