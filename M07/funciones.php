@@ -9,24 +9,63 @@
 
 <body>
     <?php
-        function conectarBBDD($nombre){
+        function consultaCursos($nombre){
 
-            $server = "localhost";
-            $user = "root";
-            $pass = "";
-            $bd = $nombre;
-            $conexion = mysqli_connect("Localhost", "root", "", "cursos");
+            $conexion = conectar($nombre);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from cursos";
+            }
+            //la enviamos a la base de datos
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            return $consulta;
+        }
+        function modificarCursos($nombre, $curso){
+
+            $conexion = conectar($nombre);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from cursos WHERE codigoCurso = $curso";
+                //la enviamos a la base de datos
+            }    
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
         
-            $conexion = mysqli_connect($server, $user, $pass,$bd) 
-                or die("Ha sucedido un error inexperado en la conexion de la base de datos");
-        
-            return $conexion;
+            return $consulta;
+            
         } 
+        function consultaProfes($nombre){
+            $conexion = conectar($nombre);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from profesores";
+            }
+            //la enviamos a la base de datos
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            return $consulta;
+        }
 
-        function desconectarBBDD($conexion){
-            $close = mysqli_close($conexion) 
-                or die("Ha sucedido un error inexperado en la desconexion de la base de datos");
-            return $close;
+
+        function conectar($nombre){
+            $conexion = mysqli_connect("Localhost", "root", "", $nombre);
+            return $conexion;
         }
 
         function mostrarBorrados($consulta,$delete){
@@ -43,6 +82,17 @@
 
         function borrarCurso($eliminar,$conexion){
             $sql = "DELETE FROM cursos WHERE codigoCurso = $eliminar";
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            else{
+                mysqli_query($conexion, $sql);
+            }
+        }
+
+        function borrarProfesor($eliminar,$conexion){
+            $sql = "DELETE FROM profesores WHERE DNI = $eliminar";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);

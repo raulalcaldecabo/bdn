@@ -38,9 +38,10 @@
         if($linea[0] == $usuario && $prueba == $linea[1]){
             $_SESSION["usuario"] = $linea;
             $_SESSION["rol"] = 1;
-        ?>
-            <meta http-equiv="refresh" content="0; url= administracion.php">
-        <?php
+            echo "<h1> ¿Qué gestión desea realizar? </h1>";
+            echo "<a href='modCursos.php'> modificar cursos </a></br>";
+            echo "<a href='modProf.php'> modificar profesores </a></br>";
+            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         }
         //si los datos son incorrectos vuelve a mandar al usuario al login
         else{
