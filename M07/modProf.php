@@ -16,14 +16,17 @@ include("funciones.php");
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
         if(isset($_GET['Numero'])){
-            $eliminar = $_GET['Numero'];
             $BBDD = "cursosbdn";
+            $eliminar=$_GET['Numero'];
+            $eliminar = $_GET['Numero'];
             $conexion = conectar($BBDD);
             if ($conexion == false){
                 mysqli_connect_error();
             }
             else{
-                //funcion para borrar un curso
+                //cambiamos los cursos en los que está profesor a un comodin porque al ser una FK no podemos dejar un curso sin profe
+                suplantarprof($conexion,$eliminar)
+                //funcion para borrar un profesor
                 borrarProfesor($eliminar, $conexion);
                 ?>
                     <meta http-equiv="refresh" content="0; url= modProf.php">
@@ -32,6 +35,12 @@ if(isset($_SESSION["rol"])){
         }
         
         else{
+
+            echo "<form action = 'resultadoProf.php' method = 'POST' name = 'buscador'>";
+            echo "buscador:<input type='text' id='buscador' name='buscador' `placeholder='buscador'";
+            echo "<button type='submit'>Buscar</button>";
+            echo "</form>"
+            
             $BBDD="cursosbdn";
             $linea = $_SESSION["usuario"];
             $profes = consultaProfes($BBDD);

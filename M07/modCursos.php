@@ -76,7 +76,8 @@ if(isset($_SESSION["rol"])){
             echo "<form action = anadir.php method = 'POST' name = 'añadir'>";
             echo "<input type='submit' value='anadir'>";
             echo "</form>";
-            echo "</br>";
+            echo "</br>"; 
+            echo "<a href='anadirCurso.php'> añadir curso </a></br>";
             echo "<a href='modProf.php'> modificar profesores </a></br>";
             echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         }        

@@ -45,6 +45,44 @@
             return $consulta;
             
         } 
+
+        function suplantarprof($nombre, $curso){
+            $conexion = conectar($nombre);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "UPDATE cursos  SET codigoProfesor = 0 WHERE codigoProfesor = $curso";
+                //la enviamos a la base de datos
+            }    
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+        
+            return $consulta;
+            
+        }
+        function modificarProfesor($nombre, $curso){
+
+            $conexion = conectar($nombre);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from profesores WHERE DNI = $curso";
+                //la enviamos a la base de datos
+            }    
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+        
+            return $consulta;
+            
+        }
         function consultaProfes($nombre){
             $conexion = conectar($nombre);
             if ($conexion == false){

@@ -21,6 +21,11 @@ if(isset($_GET['Numero'])){
     $profesor= consultaProfes($BBDD);      
     $numlineas = mysqli_num_rows($consulta);
     $linea = mysqli_fetch_array($consulta);
+
+    echo "<form action = 'resultado.php' method = 'POST' name = 'buscador'>";
+    echo "buscador:<input type='text' id='buscador' name='buscador' `placeholder='buscador'";
+    echo "<button type='submit'>Buscar</button>";
+    echo "</form>"
     
     echo "<form action = 'modificarCurso.php' method = 'POST' name = 'modificar'>";
     echo "<table>";
