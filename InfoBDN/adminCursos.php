@@ -1,0 +1,69 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> administrar cursos</title>
+</head>
+<body>
+<?php 
+
+include("funcionesBdn.php");
+
+// comprobamos si el usuario está conectado
+if(isset($_SESSION["rol"])){
+    if($_SESSION["rol"] == 1){
+        if(isset($_GET['Numero'])){
+            $eliminar = $_GET['Numero'];
+            $BBDD = "cursosbdn";
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //funcion para borrar un curso
+                borrarCurso($eliminar, $conexion);
+                ?>
+                    <meta http-equiv="refresh" content="0; url= modCursos.php">
+                <?php
+            }
+        }
+        
+        else{
+
+            echo "<form action = 'resultado.php' method = 'POST' name = 'buscador'>";
+            echo "buscador:<input type='text' id='buscador' name='buscador' placeholder='buscador'";
+            echo "<button type='submit'>Buscar</button>";
+            echo "</form>";
+
+            $BBDD="infobdn";
+
+            $cursos = consultaCursos($BBDD);
+            tablaCursos($cursos);
+            echo "</br>"; 
+            echo "<a href='anadirCurso.php'> añadir curso </a></br>";
+            echo "<a href='modProf.php'> Administrar profesores </a></br>";
+            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
+        }        
+        
+    }
+    else{
+        echo "<h1> Has de estar validado para ver esta página </h1>";
+        ?>
+            <meta http-equiv="refresh" content="5; url= landpage.php">
+        <?php
+    }
+}
+else{
+    echo "<h1> Has de estar validado para ver esta página </h1>";
+    ?>
+        <meta http-equiv="refresh" content="5; url= landpage.php">
+    <?php
+}
+
+
+?>
+</body>
+</html>
