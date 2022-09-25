@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,81 +7,82 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>modificarCurso</title>
+    <title>modificarProfesor</title>
 </head>
 
 <body>   
 <?php
 
-include("funciones.php");
-if(isset($_GET['Numero'])){
-    $id = $_GET['Numero'];
-    $BBDD="cursosbdn";
-    //nos conectamos a la base de datos
-    $profesor= modificarProfesor($BBDD,$id);      
-    $numlineas = mysqli_num_rows($profesor);
-    $linea = mysqli_fetch_array($profesor);
+include("funcionesBdn.php");
 
-    
-    echo "<form action = 'modificarProfesor.php' method = 'POST' name = 'modificar'>";
-    echo "<table>";
-    echo "<tr>";
-    echo "<td> DNI </td>";
-    echo "<td> Nombre </td>";
-    echo "<td> Apellido1 </td>";
-    echo "<td> Apellido2 </td>";
-    echo "<td> título</td>";
-    echo "<td> mail </td>";
-    echo "<td> pase </td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td> <input type = 'text' name = 'DNI' value = '$linea[0]' size = '15' maxlength='30'> </td>";
-    echo "<td> <input type = 'text' name = 'nombre' value = '$linea[1]' size = '30' maxlength='30'> </td>";
-    echo "<td> <input type = 'text' name = 'apellido1' value = '$linea[2]' size = '15' maxlength='10'> </td>";
-    echo "<td> <input type = 'text' name = 'apellido2' value = '$linea[3]' size = '15' maxlength='4'> </td>";
-    echo "<td> <input type = 'text' name = 'titulo' value = '$linea[4]' size = '15' maxlength='20'> </td>";
-    echo "<td> <input type = 'text' name = 'mail' value = '$linea[5]' size = '15' maxlength='5'> </td>";
-    echo "<td> <input type = 'hidden' name = 'pase' value = '$linea[6]' size = '15' maxlength='5'> </td>";
-    $total=mysqli_num_rows($profesor);
-   
-    echo "</td>";
-    echo "</tr>";
-    echo "</table>";
-    echo "<input type='submit' value='modificar'>";
-    echo "</form>";
-    echo "</br>";
-    echo "<a href='modCursos.php'> modificar cursos </a></br>";
-    echo "<a href='modProf.php'> modificar profesores </a></br>";
-    echo "<a href='destruirSesion.php'>Salir de la sesión</a>";     
-
-}
-else{
-    if(isset($_POST)){
-        //    $datos = $_REQUEST;
-        $datos=$_POST;
-        $BBDD="cursosbdn";
-        $conexion = conectar($BBDD);
-        if ($conexion == false){
-            mysqli_connect_error();
+// comprobamos si el usuario está conectado
+if(isset($_SESSION["rol"])){
+    if($_SESSION["rol"] == 1){
+        if(isset($_GET['Numero'])){
+            $id = $_GET['Numero'];
+            $BBDD="infobdn";
+            //nos conectamos a la base de datos
+            $profesor= modificarProfesor($BBDD,$id);    
+            $numlineas = mysqli_num_rows($profesor);
+            $linea = mysqli_fetch_array($profesor);
+        
+            //formulario de modificación profesor
+            echo "<form action = 'modificarProfesor.php' method = 'POST' name = 'modificarProfesor'>";
+            echo "Editar profesor </br>";
+            echo "ID <input type = 'hidden' name = 'ID' value = '$linea[0]' size = '3' maxlength='3'></br>";
+            echo "DNI <input type = 'text' name = 'DNI' value = '$linea[1]' size = '8' maxlength='8'> </br>";
+            echo "nombre <input type = 'text' name = 'nombre' value = '$linea[2]' size = '50' maxlength='50'> </br>";
+            echo "apellido <input type = 'text' name = 'apellido' value = '$linea[3]' size = '50' maxlength='50'> </br>";
+            echo "titulo <input type = 'text' name = 'titulo' value = '$linea[4]' size = '100' maxlength='50'> </br>";
+            echo "mail <input type = 'text' name = 'mail' value = '$linea[5]' size = '100' maxlength='50'> </br>";
+            echo "<input type='submit' value='modificar'>";
+            echo "</form>";
+            echo "</br>";
+            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
+            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
+            echo "<a href='destruirSesion.php'>Salir de la sesión</a>"; 
+            
+        
         }
         else{
-            $sql = "UPDATE profesores  SET DNI= '$datos[DNI]', nombre= '$datos[nombre]', apellido1=$datos[apellido1] , apellido2=$datos[apellido2], titulo=$datos[titulo] ,mail =$datos[mail] WHERE DNI = $datos[DNI]";
-            $consulta = mysqli_query($conexion, $sql);
-            if ($consulta == false){
-                mysqli_error($conexion);
-             }
-            else{
-                $modificar = mysqli_query($conexion, $sql);
+            if(isset($_POST)){
+                $DNI = $_POST['DNI'];
+                $nombre = $_POST['nombre'];
+                $apellido = $_POST['apellido'];
+                $titulo = $_POST['titulo'];
+                $mail = $_POST['mail'];
+                $id = $_POST['ID'];
+
+                $BBDD="infobdn";
+                $conexion = conectar($BBDD);
+                if ($conexion == false){
+                    mysqli_connect_error();
+                }
+                else{
+                    $sql = "UPDATE profesores  SET dni= '$DNI', nombre= '$nombre', apellido= '$apellido', titulo= '$titulo', mail = '$mail'  WHERE ID = '$id'";
+                    $consulta = mysqli_query($conexion, $sql);
+                    if ($consulta == false){
+                        mysqli_error($conexion);
+                     }
+                    else{
+                        $modificar = mysqli_query($conexion, $sql);
+                    }
+                }    
             }
-        }    
+            ?>
+                <meta http-equiv="refresh" content="1; url= adminProf.php">
+            <?php
+        
+        }
+        
     }
+} 
+else{
+    echo "<h1> Has de estar validado para ver esta página </h1>";
     ?>
-        <meta http-equiv="refresh" content="1; url= modProf.php">
+        <meta http-equiv="refresh" content="5; url= landpage.php">
     <?php
-
 }
-
-
 
 ?>
 

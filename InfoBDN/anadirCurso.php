@@ -10,37 +10,26 @@
 <body>
 <?php 
 
-include("funciones.php");
+include("funcionesBdn.php");
 
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
-        echo "<form action = 'anadirCurso.php' method = 'POST' name = 'crear'>";
-        echo "Codigo curso <input type = 'text' name = 'Numero'  size = '15' maxlength='30'></br>";
-        echo "Nombre <input type = 'text' name = 'Nombre' size = '30' maxlength='30'> </br>";
-        echo "Descripción <input type = 'text' name = 'Descripcion' size = 40' maxlength='100'> </br>";
-        echo "Horas <input type = 'text' name = 'Horas' size = '15' maxlength='4'> </br>";
-        echo "Fecha Inicio <input type = 'text' name = 'fechaInicio'  size = '15' maxlength='20'> </br>";
-        echo "Fecha Final <input type = 'text' name = 'fechaFinal'  size = '15' maxlength='20'> </br>";
-        echo "Código Profeso <input type = 'text' name = 'codigoProfesor'  size = '15' maxlength='20'></br>";
-        echo "<input type='submit' name='crear' value='crear'>";
-        echo "</form>";
-        echo "</br>";
-        echo "<a href='modCursos.php'> modificar cursos </a></br>";
-        echo "<a href='modProf.php'> modificar profesores </a></br>";
-        echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
-        
-
         if(isset($_POST['crear'])){
-            //    $datos = $_REQUEST;
-            $datos=$_POST['crear'];
-            $BBDD="cursosbdn";
+            $nombre = $_POST['nombre'];
+            $descripcion = $_POST['descripcion'];
+            $duracion = $_POST['duracion'];
+            $inicio = $_POST['inicio'];
+            $final = $_POST['final'];
+            $profesor = $_POST['profesor'];
+            $BBDD="infobdn";
             $conexion = conectar($BBDD);
             if ($conexion == false){
                 mysqli_connect_error();
             }
             else{
-                $sql = "INSERT INTO cursos (codigoCurso, nombre, descripcion, horas, fechaInicio, fechaFinal, codigoProfesor) values ('$datos[0]', '$datos[1]', '$datos[2]', '$datos[3]' , '$datos[4]', '$datos[5]' ,'$datos[6]')";
+
+                $sql = "INSERT INTO cursos (nombre, descripcion, duracion, inicio, final, profesor) values ('$nombre', '$descripcion', '$duracion' , '$inicio', '$final' ,'$profesor')";
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
                     mysqli_error($conexion);
@@ -51,9 +40,37 @@ if(isset($_SESSION["rol"])){
                 }
             } 
             ?>
-                <meta http-equiv="refresh" content="1; url= modCursos.php">
-            <?php
-        }  
+                <meta http-equiv="refresh" content="1; url= adminCursos.php">
+                <?php
+        }
+        else{
+            $BBDD="infobdn";
+            $consulta= consultaProfes($BBDD);
+            $numlineas = mysqli_num_rows($consulta);
+            $linea = mysqli_fetch_array($consulta);
+            $total=mysqli_num_rows($consulta);
+
+            echo "<form action = 'anadirCurso.php' method = 'POST' name = 'crear'>";
+            echo "Nombre <input type = 'text' name = 'nombre' size = '50' maxlength='50'> </br>";
+            echo "Descripción <input type = 'text' name = 'descripcion' size = 100' maxlength='100'> </br>";
+            echo "Horas <input type = 'text' name = 'duracion' size = '11' maxlength='11'> </br>";
+            echo "Inicio <input type = 'text' name = 'inicio'  size = '10' maxlength='10'> </br>";
+            echo "Final <input type = 'text' name = 'final'  size = '10' maxlength='10'> </br>";
+            echo "Profesor <select name = 'profesor'></br>";
+            
+            for($i=0; $i<=$total;$i++){
+                $fila = mysqli_fetch_array($consulta);
+                echo "<option value=".$fila[0].">".$fila[1]."</option>";
+            }
+            echo "</select>";
+            echo "</br>";
+            echo "<input type='submit' name='crear' value='crear'>";
+            echo "</form>";
+            echo "</br>";
+            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
+            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
+            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
+        } 
     }
     else{
         echo "<h1> Has de estar validado para ver esta página </h1>";

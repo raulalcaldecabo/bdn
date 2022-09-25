@@ -17,7 +17,7 @@ if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
         if(isset($_GET['Numero'])){
             $eliminar = $_GET['Numero'];
-            $BBDD = "cursosbdn";
+            $BBDD = "infobdn";
             $conexion = conectar($BBDD);
             if ($conexion == false){
                 mysqli_connect_error();
@@ -26,7 +26,7 @@ if(isset($_SESSION["rol"])){
                 //funcion para borrar un curso
                 borrarCurso($eliminar, $conexion);
                 ?>
-                    <meta http-equiv="refresh" content="0; url= modCursos.php">
+                    <meta http-equiv="refresh" content="0; url= adminCursos.php">
                 <?php
             }
         }
@@ -44,7 +44,7 @@ if(isset($_SESSION["rol"])){
             tablaCursos($cursos);
             echo "</br>"; 
             echo "<a href='anadirCurso.php'> añadir curso </a></br>";
-            echo "<a href='modProf.php'> Administrar profesores </a></br>";
+            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
             echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         }        
         

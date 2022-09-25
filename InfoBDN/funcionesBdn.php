@@ -66,8 +66,10 @@
             echo "<th>Final</th>";
             echo "<th>Profesor</th>";
             echo "<th>Activo</th>";
+            echo "<th>foto</th>";
             echo "<th>Mod. estado</th>";
             echo "<th>Modificar curso</th>";
+            echo "<th>Modificar foto</th>";
             echo "</tr>";
             foreach($cursos as $curso => $campo){
                 $id=$campo["ID"];
@@ -82,6 +84,7 @@
                     echo "<td> $<a href=desActivarCursos.php?Numero=$id>Desactivar</a></td>";
                 }
                 echo "<td> <a href='modificarCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
+                echo "<td> <a href='fotoCurso.php?Numero=".$id."'> <img src='imagen/espejo.png' width='80'></a> </td>";
                 echo "</tr>";
             }
             echo "</table>";
@@ -107,46 +110,9 @@
             return $consulta; 
         }
         
-
-        function suplantarprof($nombre, $curso){
-            $conexion = conectar($nombre);
-            if ($conexion == false){
-                mysqli_connect_error();
-            }
-            else{
-                //generamos la query
-                $sql = "UPDATE cursos  SET codigoProfesor = 0 WHERE codigoProfesor = $curso";
-                //la enviamos a la base de datos
-            }    
-            $consulta = mysqli_query($conexion, $sql);
-            if ($consulta == false){
-                mysqli_error($conexion);
-            }
-        
-            return $consulta;
-            
-        }
-        function modificarProfesor($nombre, $curso){
-
-            $conexion = conectar($nombre);
-            if ($conexion == false){
-                mysqli_connect_error();
-            }
-            else{
-                //generamos la query
-                $sql = "SELECT * from profesores WHERE DNI = $curso";
-                //la enviamos a la base de datos
-            }    
-            $consulta = mysqli_query($conexion, $sql);
-            if ($consulta == false){
-                mysqli_error($conexion);
-            }
-        
-            return $consulta;
-            
-        }
-        function consultaProfes($nombre){
-            $conexion = conectar($nombre);
+        //Extrae todos los profesores de la tabla del mismo nombre
+        function consultaProfes($BBDD){
+            $conexion = conectar($BBDD);
             if ($conexion == false){
                 mysqli_connect_error();
             }
@@ -161,35 +127,71 @@
             }
             return $consulta;
         }
-
-
         
-
-        function mostrarBorrados($consulta,$delete){
-            foreach($consulta as $persona => $campo){
-                if(in_array($campo["Numero"], $delete)){
-                    echo "<h1>Empleado borrado: </h1>";
-                    foreach($campo as $dato){
-                        echo "$dato";
-                        echo "<br/>";
-                    }
+        //Tabla de profesores de adminProf.php
+        function tablaProfes($profes){
+            echo "<table>";
+            echo "<tr>";
+            echo "<th>ID</th>";
+            echo "<th>DNI</th>";
+            echo "<th>Nombre</th>";
+            echo "<th>apellido1</th>";
+            echo "<th>titulo</th>";
+            echo "<th>mail</th>";
+            echo "<th>contraseña</th>";
+            echo "<th>Activo</th>";
+            echo "<th>foto</th>";
+            echo "<th>Mod. estado</th>";
+            echo "<th>Modificar profesor</th>";
+            echo "<th>Modificar foto</th>";
+            echo "</tr>";
+            foreach($profes as $profe => $campo){
+                $id=$campo["ID"];
+                echo "<tr>";
+                foreach($campo as $dato){
+                    echo "<td> $dato </td>";
                 }
+
+                if($campo['activo']=='0'){
+                    echo "<td> $<a href=activarProfesor.php?Numero=$id>Activar</a></td>";
+                }
+                else{
+                    echo "<td> $<a href=desActivarProfesor.php?Numero=$id>Desactivar</a></td>";
+                }
+                echo "<td> <a href='modificarProfesor.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
+                echo "<td> <a href='fotoProfesor.php?Numero=".$id."'> <img src='imagen/espejo.png' width='80'></a> </td>";
+                echo "</tr>";
             }
+        
+            echo "</table>";
+
         }
 
-        function borrarCurso($eliminar,$conexion){
-            $sql = "DELETE FROM cursos WHERE codigoCurso = $eliminar";
+        //seleccionar el profesor a modificar 
+        function modificarProfesor($nombre, $curso){
+
+            $conexion = conectar($nombre);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from profesores WHERE ID = $curso";
+                //la enviamos a la base de datos
+            }    
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);
             }
-            else{
-                mysqli_query($conexion, $sql);
-            }
+        
+            return $consulta;
+            
         }
+        
 
-        function borrarProfesor($eliminar,$conexion){
-            $sql = "DELETE FROM profesores WHERE DNI = $eliminar";
+
+        function borrarCurso($eliminar,$conexion){
+            $sql = "DELETE FROM cursos WHERE codigoCurso = $eliminar";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);

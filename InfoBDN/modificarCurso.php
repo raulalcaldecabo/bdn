@@ -29,7 +29,6 @@ if(isset($_SESSION["rol"])){
             $total=mysqli_num_rows($profesor);
             
             //formulario de modificación curso
-            formularioModificarCurso($consulta, $profesor);
             echo "<form action = 'modificarCurso.php' method = 'POST' name = 'modificar'>";
             echo "Editar curso </br>";
             echo "Codigo curso <input type = 'hidden' name = 'Numero' value = '$linea[0]' size = '3' maxlength='3'></br>";
@@ -49,12 +48,11 @@ if(isset($_SESSION["rol"])){
                 }
             }
             echo "</select>";
-            echo "</td>";
             echo "<input type='submit' value='modificar'>";
             echo "</form>";
             echo "</br>";
-            echo "<a href='modCursos.php'> Administrar cursos </a></br>";
-            echo "<a href='modProf.php'> Administrar profesores </a></br>";
+            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
+            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
             echo "<a href='destruirSesion.php'>Salir de la sesión</a>";     
 
         }

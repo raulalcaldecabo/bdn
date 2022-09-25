@@ -15,57 +15,68 @@ include("funciones.php");
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
-    
-    echo "<form action = 'anadirProfesor.php' method = 'POST' name = 'crear'>";
-    echo "<table>";
-    echo "<tr>";
-    echo "<td> DNI </td>";
-    echo "<td> Nombre </td>";
-    echo "<td> Apellido1 </td>";
-    echo "<td> Apellido2 </td>";
-    echo "<td> título</td>";
-    echo "<td> mail </td>";
-    echo "<td> pase </td>";
-    echo "</tr>";
-    echo "<tr>";
-    echo "<td> <input type = 'text' name = 'DNI'  size = '15' maxlength='30'> </td>";
-    echo "<td> <input type = 'text' name = 'Nombre' size = '30' maxlength='30'> </td>";
-    echo "<td> <input type = 'text' name = 'Apellido1' size = '100' maxlength='10'> </td>";
-    echo "<td> <input type = 'text' name = 'Apellido2' size = '15' maxlength='4'> </td>";
-    echo "<td> <input type = 'text' name = 'titulo'  size = '15' maxlength='20'> </td>";
-    echo "<td> <input type = 'text' name = 'mail'  size = '15' maxlength='20'> </td>";
-    echo "<td> <input type = 'text' name = 'pase'  size = '32' maxlength='20'> </td>";
-    echo "<input type='submit' value='crear'>";
-    echo "</form>";
-    echo "</br>";
-    echo "<a href='modCursos.php'> modificar cursos </a></br>";
-    echo "<a href='modProf.php'> modificar profesores </a></br>";
-    echo "<a href='destruirSesion.php'>Salir de la sesión</a>";     
+        if(isset($_POST['crearprof'])){
+            $DNI = $_POST['DNI'];
+            $nombre = $_POST['nombre'];
+            $apellido = $_POST['apellido'];
+            $titulo = $_POST['titulo'];
+            $mail = $_POST['mail'];
+            $contrasena = $_POST['contrasena'];
+            $foto = "immagen/".$_POST['foto']."";
+            
 
-}
-else{
-    if(isset($_POST)){
-        //    $datos = $_REQUEST;
-        $datos=$_POST;
-        $BBDD="cursosbdn";
-        $conexion = conectar($BBDD);
-        if ($conexion == false){
-            mysqli_connect_error();
+            if(is_uploaded_file()){
+                $lugar = "immagen/";$_FILES['foto']['tmp_name'];
+                $id = $DNI;
+                $fichero = $id."-".$_FILES['foto']['tmp_name'];
+                $directorio = $lugar.$fichero;
+                move_uploaded_file($_FILES['foto']['tmp_name'],$lugar.$fichero);
+            }
+            else{
+                echo("no se ha subido la foto");
+            }
+
+            $BBDD="infobdn";   
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+
+                $sql = "INSERT INTO profesores (dni, nombre, apellido, titulo, mail, contrasena, activo, pfoto) values ('$DNI', '$nombre', '$apellido' , '$titulo', '$contrasena' ,'1', '$directorio')";
+                $consulta = mysqli_query($conexion, $sql);
+                if ($consulta == false){
+                    mysqli_error($conexion);
+                }
+                else{
+                    $modificar = mysqli_query($conexion, $sql);
+                    echo "<h1> Has creado el profesor con éxito </h1>";
+                }
+            } 
+            ?>
+                <meta http-equiv="refresh" content="1; url= adminProf.php">
+                <?php
         }
         else{
-            $sql = "INSERT profesores  SET DNI= '$datos[DNI]', nombre= '$datos[nombre]', apellido1=$datos[apellido1] , apellido2=$datos[apellido2], titulo=$datos[titulo] ,mail =$datos[mail]";
-            if ($consulta == false){
-                mysqli_error($conexion);
-             }
-            else{
-                $modificar = mysqli_query($conexion, $sql);
-            }
-        }    
-    }
-    ?>
-        <meta http-equiv="refresh" content="1; url= modProfs.php">
-    <?php     
-        
+            $BBDD="infobdn";
+            echo "<form action = 'anadirCurso.php' method = 'POST' name = 'crearprof'>";
+            echo "DNI <input type = 'text' name = 'DNI'  size = '8' maxlength='8'> </td>";
+            echo "Nombre <input type = 'text' name = 'nombre' size = '50' maxlength='50'> </br>";
+            echo "Apellido <input type = 'text' name = 'apellido' size = '50' maxlength='50'> </br>";
+            echo "titulo <input type = 'text' name = 'titulo' size = '100' maxlength='100'> </br>";
+            echo "mail <input type = 'text' name = 'mail' size = '100' maxlength='100'> </br>";
+            echo "contrasena <input type = 'text' name = 'contrasena' size = '35' maxlength='35'> </br>";
+            echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
+            echo "Profesor <select name = 'profesor'></br>";
+            echo "<input type='submit' name='crearprof' value='crearprof'>";
+            echo "</form>";
+            echo "</br>";
+            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
+            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
+            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
+        } 
+      
+
     }
     else{
         echo "<h1> Has de estar validado para ver esta página </h1>";
