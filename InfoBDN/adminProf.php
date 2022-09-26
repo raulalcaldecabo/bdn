@@ -52,7 +52,7 @@ if(isset($_SESSION["rol"])){
             echo "<input type='submit' value='anadir'>";
             echo "</form>";
             echo "</br>";
-            echo "<a href='anadirProf.php'> añadir profesor </a></br>";
+            echo "<a href='anadirProfesor.php'> añadir profesor </a></br>";
             echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
             echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         }        

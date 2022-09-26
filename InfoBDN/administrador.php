@@ -19,7 +19,7 @@
         $usuario = $_REQUEST["usuario"];
         $password = $_REQUEST["password"];
         //nos conectamos a la base de datos
-        $conexion = mysqli_connect("Localhost", "root", "", "cursosbdn");
+        $conexion = mysqli_connect("Localhost", "root", "", "infobdn");
         if ($conexion == false){
             mysqli_connect_error();
         }

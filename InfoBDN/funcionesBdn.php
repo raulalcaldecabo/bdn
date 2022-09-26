@@ -17,7 +17,7 @@
         //función para validar al administrador
         function validarAdmin($conexion,$usuario,$password){
             $correcto=0;
-            $sql = "SELECT * from administrador where  pass = md5('$password')";
+            $sql = "SELECT * from administrador where  contrasena = md5('$password')";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);
@@ -26,7 +26,7 @@
             $linea = mysqli_fetch_array($consulta);
             //comprobamos los datos del usuario con la base de datos y los guardamos como sesión
             $prueba = md5($password);
-            if($linea[0] == $usuario && $prueba == $linea[1]){
+            if($prueba == $linea[2]){
                 $_SESSION["usuario"] = $linea;
                 $_SESSION["rol"] = 1;
                 $correcto = 1;
@@ -78,10 +78,10 @@
                     echo "<td> $dato </td>";
                 }
                 if($campo['activo']=='0'){
-                    echo "<td> $<a href=activarCursos.php?Numero=$id>Activar</a></td>";
+                    echo "<td> $<a href=estadoCurso.php?Numero=$id>Activar</a></td>";
                 }
                 else{
-                    echo "<td> $<a href=desActivarCursos.php?Numero=$id>Desactivar</a></td>";
+                    echo "<td> $<a href=estadoCurso.php?Numero=$id>Desactivar</a></td>";
                 }
                 echo "<td> <a href='modificarCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
                 echo "<td> <a href='fotoCurso.php?Numero=".$id."'> <img src='imagen/espejo.png' width='80'></a> </td>";
@@ -153,10 +153,10 @@
                 }
 
                 if($campo['activo']=='0'){
-                    echo "<td> $<a href=activarProfesor.php?Numero=$id>Activar</a></td>";
+                    echo "<td> $<a href=estadoProfesor.php?Numero=$id>Activar</a></td>";
                 }
                 else{
-                    echo "<td> $<a href=desActivarProfesor.php?Numero=$id>Desactivar</a></td>";
+                    echo "<td> $<a href=estadoProfesor.php?Numero=$id>Desactivar</a></td>";
                 }
                 echo "<td> <a href='modificarProfesor.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
                 echo "<td> <a href='fotoProfesor.php?Numero=".$id."'> <img src='imagen/espejo.png' width='80'></a> </td>";
@@ -188,6 +188,79 @@
             
         }
         
+        // cambiar estado curso
+        function estadoCurso($id){
+            $BBDD = 'infobdn';
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from cursos WHERE ID = $id";
+                //la enviamos a la base de datos
+            }    
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            $numlineas = mysqli_num_rows($consulta);
+            $linea = mysqli_fetch_array($consulta);
+            if($linea[7] == 0){
+                $sql = "UPDATE cursos  SET activo= '1' WHERE ID = '$id'";
+                $consulta = mysqli_query($conexion, $sql);
+                if ($consulta == false){
+                    mysqli_error($conexion);
+                }
+            }
+            else{
+                $sql = "UPDATE cursos  SET activo= '0' WHERE ID = '$id'";
+                $consulta = mysqli_query($conexion, $sql);
+                if ($consulta == false){
+                    mysqli_error($conexion);
+                }
+            }
+            ?>
+                <meta http-equiv="refresh" content="1; url= adminCursos.php">
+            <?php
+        }
+
+        //cambiar estado de profesor
+        function estadoProfesor($id){
+            $BBDD = 'infobdn';
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from profesores WHERE ID = $id";
+                //la enviamos a la base de datos
+            }    
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            $numlineas = mysqli_num_rows($consulta);
+            $linea = mysqli_fetch_array($consulta);
+            if($linea[7] == 0){
+                $sql = "UPDATE profesores  SET activo= '1' WHERE ID = '$id'";
+                $consulta = mysqli_query($conexion, $sql);
+                if ($consulta == false){
+                    mysqli_error($conexion);
+                }
+            }
+            else{
+                $sql = "UPDATE profesores  SET activo= '0' WHERE ID = '$id'";
+                $consulta = mysqli_query($conexion, $sql);
+                if ($consulta == false){
+                    mysqli_error($conexion);
+                }
+            }
+            ?>
+                <meta http-equiv="refresh" content="1; url= adminProf.php">
+            <?php
+        }
 
 
         function borrarCurso($eliminar,$conexion){

@@ -10,65 +10,61 @@
 <body>
 <?php 
 
-include("funciones.php");
+include("funcionesBdn.php");
 
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
-        if(isset($_POST['crearprof'])){
+        if(isset($_POST['crear'])){
             $DNI = $_POST['DNI'];
             $nombre = $_POST['nombre'];
             $apellido = $_POST['apellido'];
             $titulo = $_POST['titulo'];
             $mail = $_POST['mail'];
             $contrasena = $_POST['contrasena'];
-            $foto = "immagen/".$_POST['foto']."";
             
-
-            if(is_uploaded_file()){
-                $lugar = "immagen/";$_FILES['foto']['tmp_name'];
-                $id = $DNI;
-                $fichero = $id."-".$_FILES['foto']['tmp_name'];
-                $directorio = $lugar.$fichero;
-                move_uploaded_file($_FILES['foto']['tmp_name'],$lugar.$fichero);
+            /*
+            if(is_uploaded_file($_FILES['foto']['tmp_name'])){
+                $nombreDirectorio = "imagen/";
+                $idUnico = $DNI;
+                $nombreFichero = $idUnico . "-" .$_FILES['foto']['name'];
+                $directorio= $nombreDirectorio.$nombreFichero;
+                move_uploaded_file ($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
             }
             else{
                 echo("no se ha subido la foto");
             }
-
+            */
             $BBDD="infobdn";   
             $conexion = conectar($BBDD);
             if ($conexion == false){
                 mysqli_connect_error();
             }
             else{
-
-                $sql = "INSERT INTO profesores (dni, nombre, apellido, titulo, mail, contrasena, activo, pfoto) values ('$DNI', '$nombre', '$apellido' , '$titulo', '$contrasena' ,'1', '$directorio')";
+                $sql = "INSERT INTO profesores (dni, nombre, apellido, titulo, mail, contrasena, activo/*, pfoto */) values ('$DNI', '$nombre', '$apellido', '$titulo', '$mail', md5('$contrasena') ,'1'/*, '$directorio'*/)";
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
                     mysqli_error($conexion);
                 }
                 else{
-                    $modificar = mysqli_query($conexion, $sql);
                     echo "<h1> Has creado el profesor con éxito </h1>";
                 }
             } 
             ?>
-                <meta http-equiv="refresh" content="1; url= adminProf.php">
+                <meta http-equiv="refresh" content="10; url= adminProf.php">
                 <?php
         }
         else{
             $BBDD="infobdn";
-            echo "<form action = 'anadirCurso.php' method = 'POST' name = 'crearprof'>";
+            echo "<form action = 'anadirProfesor.php' method = 'POST' name = 'crear'>";
             echo "DNI <input type = 'text' name = 'DNI'  size = '8' maxlength='8'> </td>";
             echo "Nombre <input type = 'text' name = 'nombre' size = '50' maxlength='50'> </br>";
             echo "Apellido <input type = 'text' name = 'apellido' size = '50' maxlength='50'> </br>";
             echo "titulo <input type = 'text' name = 'titulo' size = '100' maxlength='100'> </br>";
             echo "mail <input type = 'text' name = 'mail' size = '100' maxlength='100'> </br>";
             echo "contrasena <input type = 'text' name = 'contrasena' size = '35' maxlength='35'> </br>";
-            echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
-            echo "Profesor <select name = 'profesor'></br>";
-            echo "<input type='submit' name='crearprof' value='crearprof'>";
+            //echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
+            echo "<input type='submit' name='crear' value='crear'>";
             echo "</form>";
             echo "</br>";
             echo "<a href='adminCursos.php'> Administrar cursos </a></br>";

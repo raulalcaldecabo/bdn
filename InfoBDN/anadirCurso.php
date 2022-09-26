@@ -35,7 +35,6 @@ if(isset($_SESSION["rol"])){
                     mysqli_error($conexion);
                 }
                 else{
-                    $modificar = mysqli_query($conexion, $sql);
                     echo "<h1> Has creado el curso con éxito </h1>";
                 }
             } 

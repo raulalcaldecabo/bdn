@@ -20,19 +20,21 @@ if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
         if(isset($_GET['Numero'])){
             $id = $_GET['Numero'];
+            $_SESSION['ID'] = $_GET['Numero'];
             echo "<form action = 'fotoCurso.php method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
             echo "Codigo curso <input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
             echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
             echo "<input type='submit' name='crearprof' value='crearprof'>";
             echo "</form>";
         }
-        if(isset($_GET['foto'])){
+        if(isset($_POST['foto'])){
+            $id = $_SESSION['ID'];
             if(is_uploaded_file()){
-                $lugar = "immagen/";$_FILES['foto']['tmp_name'];
-                $id = $_GET['Numero'];
-                $fichero = $id."-".$_FILES['foto']['tmp_name'];
-                $directorio = $lugar.$fichero;
-                move_uploaded_file($_FILES['foto']['tmp_name'],$lugar.$fichero);
+                $nombreDirectorio = "imagen/";
+                $idUnico = $id;
+                $nombreFichero = $idUnico . "-" .$_FILES['foto']['name'];
+                $directorio= $nombreDirectorio.$nombreFichero;
+                move_uploaded_file ($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
             }
             else{
                 echo("no se ha subido la foto");
