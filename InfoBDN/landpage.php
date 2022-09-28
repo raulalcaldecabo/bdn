@@ -13,94 +13,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>landpage</title>
+    <link type="text/css" rel="stylesheet" href="landpage.css">
 
 </head>
 
 <body>
     <?php
+    include("funcionesBdn.php");
     //Si usuario se ha conectado a la página se inicia este if 
     if($_REQUEST){
         $usuario = $_REQUEST["usuario"];
         $password = $_REQUEST["password"];
         $tipo = $_REQUEST["user"];
         //nos conectamos a la base de datos
-        $conexion = mysqli_connect("Localhost", "root", "", "cursosbdn");
+        $BBDD = "infobdn";
+        $conexion = conectar($BBDD);
         if ($conexion == false){
             mysqli_connect_error();
         }
         else{
-            //generamos la query alumno o profesor
             if ($tipo=="Alumno"){
-                $sql = "SELECT * from alumnos where  DNI = $usuario";
+                $correcto = validarAlumno($conexion, $usuario, $password);
+                if($correcto ==1){
+                    ?>
+                    <meta http-equiv="refresh" content="1; url= alumnoFrontal.php">
+                    <?php
+                }
+                else{
+                    echo 'Usuario o contraseña incorrectos';
+                    ?>
+                    <meta http-equiv="refresh" content="5; url= landpage.php">
+                    <?php
+                }
             }
-            elseif ($tipo=="Profesor"){
-                $sql = "SELECT * from profesores where  DNI = $usuario";
+            else{
+                $correcto = validarProfesor($conexion, $usuario, $password);
+                if($correcto ==1){
+                    ?>
+                    <meta http-equiv="refresh" content="1; url= profesorFrontal.php">
+                    <?php
+                }
+                else{
+                    echo 'Usuario o contraseña incorrectos';
+                    ?>
+                    <meta http-equiv="refresh" content="5; url= landpage.php">
+                    <?php
+                }
             }
             
         }
-        //la enviamos a la base de datos
-        $consulta = mysqli_query($conexion, $sql);
-        if ($consulta == false){
-            mysqli_error($conexion);
-        }
-        $numlineas = mysqli_num_rows($consulta);
-        $linea = mysqli_fetch_array($consulta);
-        //comprobamos los datos del usuario con la base de datos y los guardamos como sesión
-        if($linea[0] == $usuario && MD5($password) == $linea[6]){
-            if ($tipo=="Alumno"){
-                $_SESSION["usuario"] = $linea;
-                ?>
-                <meta http-equiv="refresh" content="0; url= alumno.php">
-                <?php
-            }
-            elseif ($tipo=="Profesor"){
-                $_SESSION["usuario"] = $linea;
-                ?>
-                <meta http-equiv="refresh" content="0; url= profesor.php">
-                <?php
-            }
-            
-        
-        }
-        //si los datos son incorrectos vuelve a mandar al usuario al login
-        else{
-            echo 'Usuario o contraseña incorrectos';
-            ?>
-            <meta http-equiv="refresh" content="5; url= landpage.php">
-            <?php
-        }
+       
     }
     //si usuario entra nuevo a la página se encuentra el formulario de login.
     else{
         ?>
-        <h1>InfoBDN</h1>
-        <form action="landpage.php" method="POST"  name="dades">
-            <table>
-                <tr>
-                    <td>Usuario</td> 
-                    <td>
-                        <input type="text" name="usuario" size="50" maxlength="15"><br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td>
-                        <input type="password" name="password" size="50" maxlength="9">
-                    </td>
-                </tr>
-            </table>
-            <br/>
-            Alumno <input type="radio" name="user" value="Alumno"><br/>
+        <header>
+            <img alt="logo" src="C:\xampp\htdocs\InfoBDN\imagen\logo.png"/>
+            <h1>InfoBDN, encantados de formarte</h1>
+            <a href="administrador.php">
+                <button class="admin">Panel admin.</button>
+            </a>
+        </header>
+        
+        <form class = "form" action="landpage.php" method="POST"  name="dades">
+            DNI<input type="text" name="usuario" size="8" maxlength="8"><br/>
+            Contraseña<input type="password" name="password" size="10" maxlength="10"> <br/>
+            Alumno <input type="radio" name="user" value="Alumno">
             Profesor <input type="radio" name="user" value="Profesor"><br/>
-            <div class="pie">
+            <div class="botones">
                 <input type="submit" name="entrar" value="Entrar">
                 <input type="reset" value="borrar">
-            </div>                   
+            </div>
+                           
         </form>
-        <!-- el enlace para ir al formulario de registro-->
-        <a href='registro.php'>¿Aun no estás registrado?</a>
+        
         <br/>
-        <a href='administrador.php'>Administrador</a>
+            <div>
+                <!-- el enlace para ir al formulario de registro-->
+                <a href="registroAlumnos.php">
+                <button class="Registro">Registrarse</button></a>
+            </div>    
         <?php
     } 
     ?> 

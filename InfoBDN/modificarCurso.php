@@ -86,7 +86,7 @@ if(isset($_SESSION["rol"])){
         
     }
     else{
-        echo "<h1> Has de estar validado para ver esta página </h1>";
+        echo "<h1> No tienes permisos para ver esta página </h1>";
         ?>
             <meta http-equiv="refresh" content="5; url= landpage.php">
         <?php

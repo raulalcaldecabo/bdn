@@ -34,6 +34,46 @@
             return $correcto;
         }
 
+        //función para validar alumnos
+        function validarAlumno($conexion, $usuario, $password){
+            $correcto=0;
+            $sql = "SELECT * from alumnos where  contrasena = md5('$password')";
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            $numlineas = mysqli_num_rows($consulta);
+            $linea = mysqli_fetch_array($consulta);
+            //comprobamos los datos del usuario con la base de datos y los guardamos como sesión
+            $prueba = md5($password);
+            if($prueba == $linea[5]){
+                $_SESSION["alumno"] = $linea;
+                $_SESSION["rol"] = 2;
+                $correcto = 1;
+            }
+            return $correcto;
+        }
+
+        //función para validar profesores
+        function validarProfesor($conexion, $usuario, $password){
+            $correcto=0;
+            $sql = "SELECT * from profesores where  contrasena = md5('$password')";
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            $numlineas = mysqli_num_rows($consulta);
+            $linea = mysqli_fetch_array($consulta);
+            //comprobamos los datos del usuario con la base de datos y los guardamos como sesión
+            $prueba = md5($password);
+            if($prueba == $linea[6]){
+                $_SESSION["profesor"] = $linea;
+                $_SESSION["rol"] = 3;
+                $correcto = 1;
+            }
+            return $correcto;
+        }
+
         // query de todos los cursos
         function consultaCursos($nombre){
             $conexion = conectar($nombre);
@@ -262,6 +302,72 @@
             <?php
         }
 
+        //consulta de matriculas
+        function consultaMatriculas($nombre, $usuario){
+            $BBDD = 'infobdn';
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT cursos.ID, cursos.nombre, cursos.descripcion, cursos.duracion, cursos.inicio, cursos.final, cursos.profesor, matricula.nota from matricula inner join cursos on matricula.idCurso = cursos.ID where matricula.idAlumno = '$usuario'";
+            }
+            //la enviamos a la base de datos
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            return $consulta;
+
+        }
+
+        //mostrar los cursos a los que se ha matriculado el alumno
+        function alumnoMatriculas($matriculas){
+            $numlineas = mysqli_num_rows($matriculas);
+            echo "<h1> Cursos BDN </h1>";
+            echo "<table>";
+            echo "<tr>";
+            echo "<th>ID</th>";
+            echo "<th>Nombre curso</th>";
+            echo "<th>Descripción</th>";
+            echo "<th>Duración</th>";
+            echo "<th>Inicio</th>";
+            echo "<th>Final</th>";
+            echo "<th>Profesor</th>";
+            echo "<th> Nota </th>";
+            echo "<th> Darse de baja </th>";
+            echo "</tr>";
+            foreach($matriculas as $curso => $campo){
+                $id=$campo["ID"];
+                echo "<tr>";
+                foreach($campo as $dato){
+                    echo "<td> $dato </td>";
+                }
+                echo "<td> <a href='BajaCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        }
+
+        //todos los cursos disponibles para el alumno
+        function cursosDisponibles($BBDD){
+            $fecha_actual = date("Y-m-d");
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from cursos where $fecha_actual <= inicio";
+            }
+            //la enviamos a la base de datos
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            return $consulta;
+        }
 
         function borrarCurso($eliminar,$conexion){
             $sql = "DELETE FROM cursos WHERE codigoCurso = $eliminar";

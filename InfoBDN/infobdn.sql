@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2022 a las 18:48:27
+-- Tiempo de generación: 28-09-2022 a las 10:47:41
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -45,6 +45,30 @@ INSERT INTO `administrador` (`1`, `nombre`, `contrasena`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `alumnos`
+--
+
+CREATE TABLE `alumnos` (
+  `ID` int(3) NOT NULL,
+  `dni` int(8) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(50) NOT NULL,
+  `mail` varchar(100) NOT NULL,
+  `contrasena` varchar(35) NOT NULL,
+  `activo` int(1) NOT NULL,
+  `foto` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `alumnos`
+--
+
+INSERT INTO `alumnos` (`ID`, `dni`, `nombre`, `apellido`, `mail`, `contrasena`, `activo`, `foto`) VALUES
+(1, 0, 'paquito', 'chocolatero', 'paco@choco.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, '');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cursos`
 --
 
@@ -71,6 +95,26 @@ INSERT INTO `cursos` (`ID`, `nombre`, `descripcion`, `duracion`, `inicio`, `fina
 (4, 'ofimatica', 'otro curso', 60, '2022-11-24', '2022-12-09', 2, '0', ''),
 (5, 'redes', 'otro curso sin mas', 100, '2022-11-24', '2022-12-09', 3, '', ''),
 (7, 'onanismo', 'el consuelo del solitario', 1, '2022-11-24', '2022-11-24', 2, '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `matricula`
+--
+
+CREATE TABLE `matricula` (
+  `idCurso` int(3) NOT NULL,
+  `IdAlumno` int(3) NOT NULL,
+  `Nota` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `matricula`
+--
+
+INSERT INTO `matricula` (`idCurso`, `IdAlumno`, `Nota`) VALUES
+(2, 1, 0),
+(2, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -112,11 +156,24 @@ ALTER TABLE `administrador`
   ADD PRIMARY KEY (`1`);
 
 --
+-- Indices de la tabla `alumnos`
+--
+ALTER TABLE `alumnos`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indices de la tabla `cursos`
 --
 ALTER TABLE `cursos`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `profesor` (`profesor`);
+
+--
+-- Indices de la tabla `matricula`
+--
+ALTER TABLE `matricula`
+  ADD KEY `IdAlumno` (`IdAlumno`),
+  ADD KEY `idCurso` (`idCurso`);
 
 --
 -- Indices de la tabla `profesores`
@@ -133,6 +190,12 @@ ALTER TABLE `profesores`
 --
 ALTER TABLE `administrador`
   MODIFY `1` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `alumnos`
+--
+ALTER TABLE `alumnos`
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `cursos`
@@ -155,6 +218,13 @@ ALTER TABLE `profesores`
 --
 ALTER TABLE `cursos`
   ADD CONSTRAINT `cursos_ibfk_1` FOREIGN KEY (`profesor`) REFERENCES `profesores` (`ID`);
+
+--
+-- Filtros para la tabla `matricula`
+--
+ALTER TABLE `matricula`
+  ADD CONSTRAINT `matricula_ibfk_1` FOREIGN KEY (`IdAlumno`) REFERENCES `alumnos` (`ID`),
+  ADD CONSTRAINT `matricula_ibfk_2` FOREIGN KEY (`idCurso`) REFERENCES `cursos` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

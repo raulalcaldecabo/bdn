@@ -70,6 +70,10 @@ if(isset($_SESSION["rol"])){
             }    
         }     
     } 
+    else{
+        echo "<h1> No tienes permisos para ver esta página </h1>";
+    }
+    
 }
 
 else{
