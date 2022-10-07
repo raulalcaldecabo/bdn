@@ -19,17 +19,17 @@ include("funcionesBdn.php");
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
         if(isset($_GET['Numero'])){
-            $id = $_GET['Numero'];
             $_SESSION['ID'] = $_GET['Numero'];
-            echo "<form action = 'fotoCurso.php method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
-            echo "Codigo curso <input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
-            echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
-            echo "<input type='submit' name='crearprof' value='crearprof'>";
+            $id = $_GET['Numero'];
+            echo "<form action = 'fotoProfesor.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
+            echo "<input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
+            echo "foto <input type = 'file' name = 'foto'> </br>";
+            echo "<input type='submit' name='enviar' value='enviar'>";
             echo "</form>";
         }
-        if(isset($_POST['foto'])){
+        if(isset($_FILES['foto'])){
             $id = $_SESSION['ID'];
-            if(is_uploaded_file()){
+            if(is_uploaded_file($_FILES['foto']['tmp_name'])){
                 $nombreDirectorio = "imagen/";
                 $idUnico = $id;
                 $nombreFichero = $idUnico . "-" .$_FILES['foto']['name'];
@@ -46,7 +46,7 @@ if(isset($_SESSION["rol"])){
             }
             else{
 
-                $sql = "UPDATE cursos SET cfoto = '$directorio' WHERE ID = '$id";
+                $sql = "UPDATE cursos SET cfoto = '$directorio' WHERE ID = '".$id."'";
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
                     mysqli_error($conexion);
@@ -55,7 +55,7 @@ if(isset($_SESSION["rol"])){
                     $modificar = mysqli_query($conexion, $sql);
                     echo "<h1> Modificación realizada con éxito </h1>";
                     ?>
-                        <meta http-equiv="refresh" content="5; url= modificarCurso.php">
+                        <meta http-equiv="refresh" content="0; url= modificarCurso.php">
                     <?php
                 }
             } 

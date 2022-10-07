@@ -16,7 +16,7 @@
     include("funcionesBdn.php");
     
     if(isset($_REQUEST['crear'])){
-        $dni = $_REQUEST['dni'];
+        $dni = $_REQUEST['DNI'];
         $nombre = $_REQUEST['nombre'];
         $apellido = $_REQUEST['apellido'];
         $mail = $_REQUEST['mail'];
@@ -28,18 +28,32 @@
             mysqli_connect_error();
         }
         else{
+            //generamos la query para saber si está en la base de datos
+            $sql = "SELECT * from alumnos where  mail = '$mail'";
+        }
+        //la enviamos a la base de datos
+        $consulta = mysqli_query($conexion, $sql);
+        if ($consulta == false){
+            mysqli_error($conexion);
+        }
+        //si existe el mail le informamos que está registrado y lo devolvemos a registro
+        if(mysqli_num_rows($consulta)>0){
+            echo 'Ese usuario ya está registrado';
+            ?>
+            <meta http-equiv="refresh" content="5; url= landpage.php">
+            <?php
+        }
+        //si no existe lo ingresamos en la base de datos
+        else{
             $sql = "INSERT INTO alumnos (dni, nombre, apellido, mail, contrasena, activo) values ('$dni', '$nombre', '$apellido', '$mail', md5('$contrasena') ,'1')";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);
             }
             else{
-                 echo "<h1> Has creado el usuario con éxito </h1>";
+                echo "<h1> Has creado el usuario con éxito </h1>";
             }
         } 
-        ?>
-            <meta http-equiv="refresh" content="0; url= landpage.php">
-        <?php
     }
     //si usuario entra nuevo a la página se encuentra el formulario de login.
     else{

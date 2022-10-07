@@ -46,7 +46,7 @@
                     <?php
                 }
             }
-            else{
+            else if($tipo=="Profesor"){
                 $correcto = validarProfesor($conexion, $usuario, $password);
                 if($correcto ==1){
                     ?>
@@ -60,7 +60,12 @@
                     <?php
                 }
             }
-            
+            else{
+                echo 'Selecciona profesor o alumno';
+                ?>
+                <meta http-equiv="refresh" content="5; url= landpage.php">
+                <?php
+            }
         }
        
     }
@@ -68,8 +73,8 @@
     else{
         ?>
         <header>
-            <img alt="logo" src="C:\xampp\htdocs\InfoBDN\imagen\logo.png"/>
-            <h1>InfoBDN, encantados de formarte</h1>
+            <img alt="logo" src="imagen/Logo.png" width = "150px" heigth= "150px"/>
+            <h1>INFOBDN, ENCANTADOS DE FORMARTE</h1>
             <a href="administrador.php">
                 <button class="admin">Panel admin.</button>
             </a>

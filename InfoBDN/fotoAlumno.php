@@ -17,16 +17,12 @@ include("funcionesBdn.php");
 
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
-    if($_SESSION["rol"] == 1 || $_SESSION["rol"] == 3){
-        if(isset($_GET['Numero'])){
-            $_SESSION['ID'] = $_GET['Numero'];
-            $id = $_GET['Numero'];
-            echo "<form action = 'fotoProfesor.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
-            echo "<input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
-            echo "foto <input type = 'file' name = 'foto'> </br>";
-            echo "<input type='submit' name='enviar' value='enviar'>";
-            echo "</form>";
-        }
+    if($_SESSION["rol"] == 2){
+        $usuario = $_SESSION["alumno"];
+        $id = $usuario[0];
+        $nombre = $usuario[2];
+        $apellido = $usuario[3];
+
         if(isset($_FILES['foto'])){
             $id = $_SESSION['ID'];
             if(is_uploaded_file($_FILES['foto']['tmp_name'])){
@@ -46,7 +42,7 @@ if(isset($_SESSION["rol"])){
             }
             else{
 
-                $sql = "UPDATE profesores SET pfoto = '$directorio' WHERE ID = '".$id."'";
+                $sql = "UPDATE alumnos SET foto = '$directorio' WHERE ID = '".$id."'";
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
                     mysqli_error($conexion);
@@ -54,19 +50,18 @@ if(isset($_SESSION["rol"])){
                 else{
                     $modificar = mysqli_query($conexion, $sql);
                     echo "<h1> Modificación realizada con éxito </h1>";
-                    if($_SESSION["rol"] == 1){
-                        ?>
-                            <meta http-equiv="refresh" content="0; url= modificarProfesor.php">
-                        <?php
-                    }
-                    if($_SESSION["rol"] == 3){
-                        ?>
-                            <meta http-equiv="refresh" content="0; url= profesorFrontal.php">
-                        <?php
-                    }
-                    
+                    ?>
+                        <meta http-equiv="refresh" content="0; url= alumnoFrontal.php">
+                    <?php
                 }
             } 
+        }
+        else{
+            echo "<form action = 'fotoAlumno.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
+            echo "<input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
+            echo "foto <input type = 'file' name = 'foto'> </br>";
+            echo "<input type='submit' name='enviar' value='enviar'>";
+            echo "</form>";
         }
     }
     else{

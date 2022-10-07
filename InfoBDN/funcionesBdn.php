@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>modificarEmpleado</title>
+    <title>funciones</title>
 </head>
 
 <body>
@@ -57,7 +57,7 @@
         //función para validar profesores
         function validarProfesor($conexion, $usuario, $password){
             $correcto=0;
-            $sql = "SELECT * from profesores where  contrasena = md5('$password')";
+            $sql = "SELECT * from profesores where dni ='$usuario' and contrasena = md5('$password')";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);
@@ -113,9 +113,15 @@
             echo "</tr>";
             foreach($cursos as $curso => $campo){
                 $id=$campo["ID"];
+                $foto = $campo["cfoto"];
                 echo "<tr>";
                 foreach($campo as $dato){
-                    echo "<td> $dato </td>";
+                    if($dato == $foto){
+                        echo "<td> <img width='50' height = '50' src = ".$foto." </td>";
+                    }
+                    else{
+                        echo "<td> $dato </td>";
+                    }
                 }
                 if($campo['activo']=='0'){
                     echo "<td> $<a href=estadoCurso.php?Numero=$id>Activar</a></td>";
@@ -187,9 +193,15 @@
             echo "</tr>";
             foreach($profes as $profe => $campo){
                 $id=$campo["ID"];
+                $foto = $campo["pfoto"];
                 echo "<tr>";
                 foreach($campo as $dato){
-                    echo "<td> $dato </td>";
+                    if($dato == $foto){
+                        echo "<td> <img width='50' height = '50' src = ".$foto." </td>";
+                    }
+                    else{
+                        echo "<td> $dato </td>";
+                    }
                 }
 
                 if($campo['activo']=='0'){
@@ -296,10 +308,45 @@
                 if ($consulta == false){
                     mysqli_error($conexion);
                 }
+                //cuando un profesor se vuelve inactivo cambiamos los cursos en los que está a sinprofesor
+                $consulta = buscaCursos($id);
+                $i=0;
+                $numlineas = mysqli_num_rows($consulta);
+                while($i< $numlineas){
+                    $linea = mysqli_fetch_array($consulta);
+                    $sql = "UPDATE cursos  SET profesor = '1'";
+                    $consulta = mysqli_query($conexion, $sql);
+                    if ($consulta == false){
+                        mysqli_error($conexion);
+                    }
+                    else{
+                        $modificar = mysqli_query($conexion, $sql);
+                    }
+                    $i++;
+                }
             }
             ?>
                 <meta http-equiv="refresh" content="1; url= adminProf.php">
             <?php
+        }
+
+        //buscar cursos por id profesor
+        function buscaCursos($id){
+            $nombre = "infobdn";
+            $conexion = conectar($nombre);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from cursos WHERE profesor = '$id'";
+                //la enviamos a la base de datos
+            }
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            return $consulta;
         }
 
         //consulta de matriculas
@@ -344,7 +391,7 @@
                 foreach($campo as $dato){
                     echo "<td> $dato </td>";
                 }
-                echo "<td> <a href='BajaCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
+                echo "<td> <a href='alumnoFrontal.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='50'></a> </td>";
                 echo "</tr>";
             }
             echo "</table>";
@@ -369,8 +416,117 @@
             return $consulta;
         }
 
+        //modificar alumno
+        function modificarAlumno($BBDD,$id){
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT * from alumnos WHERE ID = $id";
+                //la enviamos a la base de datos
+            }    
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+        
+            return $consulta;
+        }
+
+        //Los alumnos de los cursos en la tabla profesor
+        function alumnosCursos($id){
+            $BBDD = 'infobdn';
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT cursos.ID, cursos.nombre, cursos.inicio, cursos.final, alumnos.ID, alumnos.dni, alumnos.nombre, alumnos.apellido, alumnos.foto, matricula.nota, cursos.final, matricula.idMatricula from ((matricula inner join cursos on matricula.idCurso = cursos.ID) inner join profesores on cursos.profesor = profesores.ID) inner join alumnos on matricula.idAlumno = alumnos.ID where cursos.profesor = '$id'";
+            }
+            //la enviamos a la base de datos
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            return $consulta;
+
+        }
+
+        // tabla de los alumnos en el frontal del profesor
+        function tablaAlumnos($consulta){
+            $fecha_actual = date("Y-m-d");
+            $numlineas = mysqli_num_rows($consulta);
+            echo "<h1> Cursos BDN </h1>";
+            echo "<table>";
+            echo "<tr>";
+            echo "<th> Curso </th>";
+            echo "<th> DNI </th>";
+            echo "<th> Nombre </th>";
+            echo "<th> Apellido </th>";
+            echo "<th> Foto </th>";
+            echo "<th> Nota </th>";
+            echo "</tr>";
+            $i=0;
+            $numlineas = mysqli_num_rows($consulta);
+            while($i< $numlineas){
+                $linea = mysqli_fetch_array($consulta);
+                $id = $linea[11];
+                echo "<tr>";
+                echo "<td> $linea[1] </td>";
+                echo "<td> $linea[5] </td>";
+                echo "<td> $linea[6] </td>";
+                echo "<td> $linea[7] </td>";
+                echo "<td> $linea[8] </td>";
+                echo "<td> $linea[9] </td>";
+                if($fecha_actual >= $linea[10]){
+                    echo "<td> <a href='ponerNota.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
+                }
+                else{
+                    echo "<td> $linea[10] </td>";
+                }
+                echo "</tr>";
+                $i++;
+            }
+            echo "</table>";
+
+        }
+
+        //comprobam mails de alumnos en el registro
+        function comprobarMail($email){
+            $correcto =0;
+            $BBDD="infobdn";   
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query para saber si está en la base de datos
+                $sql = "SELECT * from alumnos where  mail = '$email'";
+            }
+            //la enviamos a la base de datos
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+            //si existe el mail le informamos que está registrado y lo devolvemos a registro
+            if(mysqli_num_rows($consulta)>0){
+                $correcto =0;
+                echo 'Ese usuario ya está registrado';
+                ?>
+                <meta http-equiv="refresh" content="5; url= landpage.php">
+                <?php
+            }
+            else{
+                $correcto = 1;
+            }
+            return $correcto;
+        }
+      
         function borrarCurso($eliminar,$conexion){
-            $sql = "DELETE FROM cursos WHERE codigoCurso = $eliminar";
+            $sql = "DELETE FROM matricula WHERE idCurso = $eliminar";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);
@@ -378,7 +534,12 @@
             else{
                 mysqli_query($conexion, $sql);
             }
+            ?>
+                <meta http-equiv="refresh" content="1; url= alumnoFrontal.php">
+            <?php
         }
+
+        
 
 
     ?>

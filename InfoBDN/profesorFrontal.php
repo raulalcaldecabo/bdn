@@ -15,8 +15,20 @@ include("funcionesBdn.php");
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 3){
+        $usuario = $_SESSION["profesor"];
+        $id = $usuario[0];
+        $nombre = $usuario[2];
+        $apellido = $usuario[3];
         
-        echo "<h1> hola cabron </h1>";
+        echo "<h1> Hola $usuario[2] $usuario[3]</h1></br>";
+        $consulta = alumnosCursos($id);
+        tablaAlumnos($consulta);
+
+
+        echo "<h1> ¿Qué gestión deseas realizar? </h1></br>";
+        echo "<a href='modificarProfesor.php?Numero=".$id."'> Modificar datos </a></br>";
+        echo "<a href='fotoProfesor.php?Numero=".$id."'> modificar foto </a> </br>";
+        echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
 
     }
     else{

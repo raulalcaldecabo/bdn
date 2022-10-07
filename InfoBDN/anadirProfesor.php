@@ -23,10 +23,9 @@ if(isset($_SESSION["rol"])){
             $mail = $_POST['mail'];
             $contrasena = $_POST['contrasena'];
             
-            /*
             if(is_uploaded_file($_FILES['foto']['tmp_name'])){
                 $nombreDirectorio = "imagen/";
-                $idUnico = $DNI;
+                $idUnico = $id;
                 $nombreFichero = $idUnico . "-" .$_FILES['foto']['name'];
                 $directorio= $nombreDirectorio.$nombreFichero;
                 move_uploaded_file ($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
@@ -34,14 +33,14 @@ if(isset($_SESSION["rol"])){
             else{
                 echo("no se ha subido la foto");
             }
-            */
+
             $BBDD="infobdn";   
             $conexion = conectar($BBDD);
             if ($conexion == false){
                 mysqli_connect_error();
             }
             else{
-                $sql = "INSERT INTO profesores (dni, nombre, apellido, titulo, mail, contrasena, activo/*, pfoto */) values ('$DNI', '$nombre', '$apellido', '$titulo', '$mail', md5('$contrasena') ,'1'/*, '$directorio'*/)";
+                $sql = "INSERT INTO profesores (dni, nombre, apellido, titulo, mail, contrasena, activo, pfoto) values ('$DNI', '$nombre', '$apellido', '$titulo', '$mail', md5('$contrasena') ,'1', '$directorio')";
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
                     mysqli_error($conexion);
@@ -63,7 +62,7 @@ if(isset($_SESSION["rol"])){
             echo "titulo <input type = 'text' name = 'titulo' size = '100' maxlength='100'> </br>";
             echo "mail <input type = 'text' name = 'mail' size = '100' maxlength='100'> </br>";
             echo "contrasena <input type = 'text' name = 'contrasena' size = '35' maxlength='35'> </br>";
-            //echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
+            echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
             echo "<input type='submit' name='crear' value='crear'>";
             echo "</form>";
             echo "</br>";

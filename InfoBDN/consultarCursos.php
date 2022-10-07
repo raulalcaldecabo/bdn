@@ -45,7 +45,7 @@ if(isset($_SESSION["rol"])){
             $consulta = cursosDisponibles($BBDD);
             $i=0;
             $numlineas = mysqli_num_rows($consulta);
-            while($i<= $numlineas){
+            while($i< $numlineas){
                 $linea = mysqli_fetch_array($consulta);
                 $id=$linea[0];
                 echo "<div>";
@@ -58,19 +58,6 @@ if(isset($_SESSION["rol"])){
                 echo "<a href='consultarCursos.php?Numero=".$id."'><button class='Matricula'> matricularse </button></a>";
                 echo "</div>";
                 $i++;
-            }
-
-            foreach($consulta as $curso => $campo){
-                $id=$campo["ID"];
-                echo "<div>";
-                foreach($campo as $dato){
-                    if($campo == $campo["ID"]){
-                        continue;
-                    }
-                    echo "<p> $dato </p>";
-                }
-                echo "<a href='consultaCursos.php?Numero=".$id."'><button class='Matricula'> matricularse </button></a>";
-                echo "</div>";
             }
         }
         

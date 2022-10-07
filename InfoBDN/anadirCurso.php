@@ -22,6 +22,18 @@ if(isset($_SESSION["rol"])){
             $inicio = $_POST['inicio'];
             $final = $_POST['final'];
             $profesor = $_POST['profesor'];
+
+            if(is_uploaded_file($_FILES['foto']['tmp_name'])){
+                $nombreDirectorio = "imagen/";
+                $idUnico = $id;
+                $nombreFichero = $idUnico . "-" .$_FILES['foto']['name'];
+                $directorio= $nombreDirectorio.$nombreFichero;
+                move_uploaded_file ($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
+            }
+            else{
+                echo("no se ha subido la foto");
+            }
+
             $BBDD="infobdn";
             $conexion = conectar($BBDD);
             if ($conexion == false){
@@ -29,7 +41,7 @@ if(isset($_SESSION["rol"])){
             }
             else{
 
-                $sql = "INSERT INTO cursos (nombre, descripcion, duracion, inicio, final, profesor) values ('$nombre', '$descripcion', '$duracion' , '$inicio', '$final' ,'$profesor')";
+                $sql = "INSERT INTO cursos (nombre, descripcion, duracion, inicio, final, profesor, activo, cfoto) values ('$nombre', '$descripcion', '$duracion' , '$inicio', '$final' ,'$profesor', '1', '$directorio' )";
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
                     mysqli_error($conexion);
@@ -56,6 +68,7 @@ if(isset($_SESSION["rol"])){
             echo "Inicio <input type = 'text' name = 'inicio'  size = '10' maxlength='10'> </br>";
             echo "Final <input type = 'text' name = 'final'  size = '10' maxlength='10'> </br>";
             echo "Profesor <select name = 'profesor'></br>";
+            echo "foto <input type = 'file' name = 'foto' accept = '.png, .jpg, jepg'> </br>";
             
             for($i=0; $i<=$total;$i++){
                 $fila = mysqli_fetch_array($consulta);

@@ -35,7 +35,7 @@
         else{
             echo 'Usuario o contraseña incorrectos';
             ?>
-            <meta http-equiv="refresh" content="5; url= landpage.php">
+            <meta http-equiv="refresh" content="15; url= landpage.php">
             <?php
         }
     }

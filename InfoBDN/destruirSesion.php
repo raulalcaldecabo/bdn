@@ -23,7 +23,7 @@ if(isset($_SESSION["usuario"])){
 else{
     echo "<h1> Has de estar validado para ver esta página </h1>";
     ?>
-        <meta http-equiv="refresh" content="5; url= validacion.php">
+        <meta http-equiv="refresh" content="5; url= landpage.php">
         <?php
 }
 ?>   

@@ -24,12 +24,13 @@ header{
     padding-top: 5%;
     padding-bottom: 5%;
 }
-div{
-    background-color: #1f2124;
-}
 
 .admin{
     color:white;
     background-color: #1f2124;
 
+}
+
+.registro{
+    align-content: center;
 }
