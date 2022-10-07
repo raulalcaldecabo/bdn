@@ -18,6 +18,14 @@ include("funcionesBdn.php");
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1 || $_SESSION["rol"] == 3){
+        if($_SESSION["rol"] == 1 ){
+            encabezado();
+            navegacion();
+        }
+        if($_SESSION["rol"] == 3 ){
+            encabezado();
+            navegacion();
+        }
         if(isset($_GET['Numero'])){
             $_SESSION['ID'] = $_GET['Numero'];
             $id = $_GET['Numero'];

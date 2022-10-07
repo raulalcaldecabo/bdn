@@ -27,10 +27,9 @@
             $correcto = validarAdmin($conexion,$usuario,$password);
         }
         if($correcto==1){
-            echo "<h1> ¿Qué gestión desea realizar? </h1>";
-            echo "<a href='admincursos.php'> administrar cursos </a></br>";
-            echo "<a href='adminProf.php'> administrar profesores </a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
+            encabezado();
+            navegacion();
+            echo "<h1> Tus gestiones administrador</h1></br>";
         }
         else{
             echo 'Usuario o contraseña incorrectos';

@@ -57,6 +57,8 @@ if(isset($_SESSION["rol"])){
             } 
         }
         else{
+            encabezado();
+            navegacion();
             echo "<form action = 'fotoAlumno.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
             echo "<input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
             echo "foto <input type = 'file' name = 'foto'> </br>";

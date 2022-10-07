@@ -48,6 +48,9 @@ if(isset($_SESSION["rol"])){
             
         }
         else{
+            encabezado();
+            navegacion();
+
             //nos conectamos a la base de datos
             $BBDD ='infobdn';
             $alumno= modificarAlumno($BBDD,$id);    
@@ -66,10 +69,6 @@ if(isset($_SESSION["rol"])){
             echo "</form>";
             echo "</br>";
         
-            echo "<h1> ¿Qué gestión deseas realizar? </h1></br>";
-            echo "<a href='consultarCursos.php'> consultar cursos </a></br>";
-            echo "<a href='editarAlumno.php'>Editar alumno</a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         }
             
     }

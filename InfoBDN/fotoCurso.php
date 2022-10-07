@@ -21,6 +21,8 @@ if(isset($_SESSION["rol"])){
         if(isset($_GET['Numero'])){
             $_SESSION['ID'] = $_GET['Numero'];
             $id = $_GET['Numero'];
+            encabezado();
+            navegacion();
             echo "<form action = 'fotoProfesor.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
             echo "<input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
             echo "foto <input type = 'file' name = 'foto'> </br>";

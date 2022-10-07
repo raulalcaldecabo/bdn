@@ -39,8 +39,9 @@ if(isset($_SESSION["rol"])){
             <?php
         }
         else{
+            encabezado();
+            navegacion();
             echo "<h1> cursos disponibles para ti $usuario[2] $usuario[3]</h1></br>";
-
             $BBDD="infobdn";
             $consulta = cursosDisponibles($BBDD);
             $i=0;
@@ -60,11 +61,6 @@ if(isset($_SESSION["rol"])){
                 $i++;
             }
         }
-        
-        echo "<h1> ¿Qué gestión deseas realizar? </h1></br>";
-        echo "<a href='alumnoFrontal.php'> consultar cursos </a></br>";
-        echo "<a href='destruirSesion.php'>Salir de la sesión</a>";  
-        
     }
     else{
         echo "<h1> No tienes permisos para ver esta página </h1>";

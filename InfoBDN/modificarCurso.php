@@ -21,6 +21,10 @@ if(isset($_SESSION["rol"])){
         if(isset($_GET['Numero'])){
             $id = $_GET['Numero'];
             $BBDD="infobdn";
+
+            encabezado();
+            navegacion();
+
             //nos conectamos a la base de datos
             $consulta = modificarCursos($BBDD, $id);
             $profesor= consultaProfes($BBDD);      
@@ -49,11 +53,7 @@ if(isset($_SESSION["rol"])){
             }
             echo "</select>";
             echo "<input type='submit' value='modificar'>";
-            echo "</form>";
-            echo "</br>";
-            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
-            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";     
+            echo "</form>"; 
 
         }
         else{

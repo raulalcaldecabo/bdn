@@ -350,7 +350,7 @@
         }
 
         //consulta de matriculas
-        function consultaMatriculas($nombre, $usuario){
+        function consultaMatriculas($usuario){
             $BBDD = 'infobdn';
             $conexion = conectar($BBDD);
             if ($conexion == false){
@@ -406,7 +406,7 @@
             }
             else{
                 //generamos la query
-                $sql = "SELECT * from cursos where $fecha_actual <= inicio";
+                $sql = "SELECT * from cursos where $fecha_actual <= inicio" ;
             }
             //la enviamos a la base de datos
             $consulta = mysqli_query($conexion, $sql);
@@ -523,6 +523,56 @@
                 $correcto = 1;
             }
             return $correcto;
+        }
+
+        //estilo y maquetación
+
+        //El encabezado de casi todas las páginas
+        function encabezado(){
+            ?>
+            <header>
+                <img alt="logo" src="imagen/Logo.png" width = "150px" heigth= "150px"/>
+                <h1>INFOBDN, ENCANTADOS DE FORMARTE</h1>
+                <a href="destruirSesion.php">
+                    <button class="admin">Salir de la sesión.</button>
+                </a>
+            </header>   
+            <?php 
+        }
+
+        //navegación en todas las páginas
+        function navegacion(){
+            if($_SESSION["rol"] == 2){
+                ?>
+                <nav class="menu">
+                    <ul>
+                        <li><a href="consultarCursos.php">Cursos</a></li>
+                        <li><a href="modificarAlumno.php">Editar perfil</a></li>
+                        <li><a href="fotoAlumno.php">Foto</a></li>
+                        <li><a href="alumnoFrontal.php">pagina principal</a></li>
+                    </ul>
+                </nav>
+                <?php 
+            }
+            if($_SESSION["rol"] == 1){
+                ?>
+                <nav class="menu">
+                    <ul>
+                        <li><a href="admincursos.php">Cursos</a></li>
+                        <li><a href="adminProf.php">Profesores</a></li>
+                        <li><a href="anadirCurso.php">Añadir Curso</a></li>
+                        <li><a href="anadirProfesor.php">Añadir Profesor</a></li>
+                    </ul>
+                </nav>
+                <?php
+            }
+            if($_SESSION["rol"] == 3){
+                echo "<nav class='menu'>";
+                    echo  "<ul>";
+                        echo "<li><a href='profesorFrontal.php'> volver a página principal </a></li>";
+                    echo  "</ul>";
+                echo "</nav>";
+            }
         }
       
         function borrarCurso($eliminar,$conexion){

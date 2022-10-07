@@ -55,6 +55,9 @@ if(isset($_SESSION["rol"])){
                 <?php
         }
         else{
+            encabezado();
+            navegacion();
+
             $BBDD="infobdn";
             $consulta= consultaProfes($BBDD);
             $numlineas = mysqli_num_rows($consulta);
@@ -78,10 +81,6 @@ if(isset($_SESSION["rol"])){
             echo "</br>";
             echo "<input type='submit' name='crear' value='crear'>";
             echo "</form>";
-            echo "</br>";
-            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
-            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         } 
     }
     else{

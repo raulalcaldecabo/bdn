@@ -32,6 +32,8 @@ if(isset($_SESSION["rol"])){
         }
         
         else{
+            encabezado();
+            navegacion();
             echo "<h1> Profes InfoBDN </h1>";
 
             //formulario buscador
@@ -51,10 +53,6 @@ if(isset($_SESSION["rol"])){
             echo "<form action = anadir.php method = 'POST' name = 'añadir'>";
             echo "<input type='submit' value='anadir'>";
             echo "</form>";
-            echo "</br>";
-            echo "<a href='anadirProfesor.php'> añadir profesor </a></br>";
-            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         }        
         
     }

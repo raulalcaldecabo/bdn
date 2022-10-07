@@ -54,6 +54,9 @@ if(isset($_SESSION["rol"])){
                 <?php
         }
         else{
+            encabezado();
+            navegacion();
+
             $BBDD="infobdn";
             echo "<form action = 'anadirProfesor.php' method = 'POST' name = 'crear'>";
             echo "DNI <input type = 'text' name = 'DNI'  size = '8' maxlength='8'> </td>";
@@ -66,9 +69,6 @@ if(isset($_SESSION["rol"])){
             echo "<input type='submit' name='crear' value='crear'>";
             echo "</form>";
             echo "</br>";
-            echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
-            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
         } 
       
 

@@ -21,6 +21,14 @@ if(isset($_SESSION["rol"])){
         if(isset($_GET['Numero'])){
             $id = $_GET['Numero'];
             $BBDD="infobdn";
+            if($_SESSION["rol"] == 1){
+                encabezado();
+                navegacion();
+            }
+            if($_SESSION["rol"] == 3){
+                encabezado();
+                navegacion();
+            }
             //nos conectamos a la base de datos
             $profesor= modificarProfesor($BBDD,$id);    
             $numlineas = mysqli_num_rows($profesor);
@@ -37,21 +45,6 @@ if(isset($_SESSION["rol"])){
             echo "mail <input type = 'text' name = 'mail' value = '$linea[5]' size = '100' maxlength='50'> </br>";
             echo "<input type='submit' value='modificar'>";
             echo "</form>";
-
-            if($_SESSION["rol"] == 1){
-                echo "</br>";
-                echo "<a href='adminCursos.php'> Administrar cursos </a></br>";
-                echo "<a href='adminProf.php'> Administrar profesores </a></br>";
-                echo "<a href='destruirSesion.php'>Salir de la sesión</a>"; 
-            }
-            if($_SESSION["rol"] == 3){
-                echo "<h1> ¿Qué gestión deseas realizar? </h1></br>";
-                echo "<a href='profesorFrontal.php'> volver a inicio </a></br>";
-                echo "<a href='fotoProfesor.php?Numero=".$id."'> modificar foto </a> </br>";
-                echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
-            }
-            
-            
         
         }
         else{

@@ -32,6 +32,8 @@ if(isset($_SESSION["rol"])){
         }
         
         else{
+            encabezado();
+            navegacion();
 
             echo "<form action = 'resultado.php' method = 'POST' name = 'buscador'>";
             echo "buscador:<input type='text' id='buscador' name='buscador' placeholder='buscador'";
@@ -42,11 +44,8 @@ if(isset($_SESSION["rol"])){
 
             $cursos = consultaCursos($BBDD);
             tablaCursos($cursos);
-            echo "</br>"; 
-            echo "<a href='anadirCurso.php'> añadir curso </a></br>";
-            echo "<a href='adminProf.php'> Administrar profesores </a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
-        }        
+
+        }     
         
     }
     else{

@@ -16,6 +16,8 @@ include("funciones.php");
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 1){
         if(isset($_POST['buscador'])){
+            encabezado();
+            navegacion();
             $BBDD="cursosbdn";
             $conexion = conectar($BBDD);
             if ($conexion == false){
@@ -56,9 +58,6 @@ if(isset($_SESSION["rol"])){
                         
                         echo "</tr>";
                     }
-                    echo "<a href='modCursos.php'> modificar cursos </a></br>";
-                    echo "<a href='modProf.php'> modificar profesores </a></br>";
-                    echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
 
                 }
                 else{

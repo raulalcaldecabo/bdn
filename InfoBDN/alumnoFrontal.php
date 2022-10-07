@@ -12,26 +12,30 @@
 <?php 
 
 include("funcionesBdn.php");
-include("maquetacion.php");
 
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 2){
-        $usuario = $_SESSION["alumno"];
-        $id = $usuario[0];
-        $nombre = $usuario[2];
-        $apellido = $usuario[3];
-        $BBDD="infobdn";
-
         if(isset($_GET['Numero'])){
+            $usuario = $_SESSION["alumno"];
+            $id = $usuario[0];
+            $nombre = $usuario[2];
+            $apellido = $usuario[3];
+            $BBDD="infobdn";
+
             $conexion = conectar($BBDD);
             $eliminar = $_GET['Numero'];
             borrarCurso($eliminar, $conexion);
         }
         else{
+            $usuario = $_SESSION["alumno"];
+            $id = $usuario[0];
+            $nombre = $usuario[2];
+            $apellido = $usuario[3];
             encabezado();
+            navegacion();
             echo "<h1> Hola $usuario[2] $usuario[3]</h1></br>";
-            $matriculas = consultaMatriculas($BBDD, $id);
+            $matriculas = consultaMatriculas($id);
             alumnoMatriculas($matriculas);
             echo "<h1> ¿Qué gestión deseas realizar? </h1></br>";
             echo "<a href='consultarCursos.php'> consultar cursos </a></br>";

@@ -22,6 +22,8 @@ if(isset($_SESSION["rol"])){
                 mysqli_connect_error();
             }
             else{
+                encabezado();
+                navegacion();
                 $sql = "SELECT * from cursos WHERE nombre LIKE '%".$_POST['buscador']."%'";
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
@@ -55,9 +57,6 @@ if(isset($_SESSION["rol"])){
                         
                         echo "</tr>";
                     }
-                    echo "<a href='modCursos.php'> modificar cursos </a></br>";
-                    echo "<a href='modProf.php'> modificar profesores </a></br>";
-                    echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
 
                 }
                 else{
