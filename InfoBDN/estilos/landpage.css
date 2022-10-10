@@ -1,0 +1,37 @@
+* {
+    box-sizing: border-box;
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #9fa3a9;
+}
+
+header{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.form{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: space-between;
+    margin: auto;
+    background-color: #1f2124;
+    word-spacing: 10px;
+    color:white;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.admin{
+    color:white;
+    background-color: #1f2124;
+
+}
+
+.registro{
+    align-content: center;
+}

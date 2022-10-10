@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>administrador</title>
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
 </head>
 
 <body>
@@ -27,6 +28,7 @@
             $correcto = validarAdmin($conexion,$usuario,$password);
         }
         if($correcto==1){
+            $_SESSION["rol"] = 1;
             encabezado();
             navegacion();
             echo "<h1> Tus gestiones administrador</h1></br>";
@@ -40,9 +42,10 @@
     }
     //si usuario entra nuevo a la página se encuentra el formulario de login.
     else{
+        encabezado();
         ?>
-        <h1>Administrador</h1>
-        <form action="administrador.php" method="POST"  name="dades">
+        <h2>Administrador</h2>
+        <form class = "formulario" action="administrador.php" method="POST"  name="dades">
             <table>
                 <tr>
                     <td>email</td> 

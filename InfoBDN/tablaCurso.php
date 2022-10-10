@@ -16,16 +16,21 @@ include("funcionesBdn.php");
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 3){
-        encabezado();
-        navegacion();
-        $usuario = $_SESSION["profesor"];
-        $id = $usuario[0];
-        $nombre = $usuario[2];
-        $apellido = $usuario[3];
+        if(isset($_GET['Numero'])){
+            $id= $_GET['Numero'];
+            $usuario = $_SESSION["profesor"];
+            $DNI = $usuario[0];
+            $nombreProfesor = $usuario[2];
+            $apellidoProfesor = $usuario[3];
         
-        echo "<h2> Hola $usuario[2] $usuario[3]</h2></br>";
-        $consulta = cursosProfesor($id);
-        tablaCursosProfesor($consulta, $nombre, $apellido);
+        echo "<h2> Hola $nombreProfesor $apellidoProfesor</h2></br>";
+            $BBDD="infobdn";
+            encabezado();
+            navegacion();
+            $consulta = alumnosCurso($BBDD, $id);
+            tablaAlumnos($consulta);
+        }
+
         echo "<div class = 'profe'>";
         echo "<a href='modificarProfesor.php?Numero=".$id."'> Modificar datos </a></br>";
         echo "<a href='fotoProfesor.php?Numero=".$id."'> modificar foto </a>";

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
     <title>anadir profesor</title>
 </head>
 <body>
@@ -58,8 +59,8 @@ if(isset($_SESSION["rol"])){
             navegacion();
 
             $BBDD="infobdn";
-            echo "<form action = 'anadirProfesor.php' method = 'POST' name = 'crear'>";
-            echo "DNI <input type = 'text' name = 'DNI'  size = '8' maxlength='8'> </td>";
+            echo "<form class='formulario' action = 'anadirProfesor.php' method = 'POST' name = 'crear'>";
+            echo "DNI <input type = 'text' name = 'DNI'  size = '8' maxlength='8'> </br>";
             echo "Nombre <input type = 'text' name = 'nombre' size = '50' maxlength='50'> </br>";
             echo "Apellido <input type = 'text' name = 'apellido' size = '50' maxlength='50'> </br>";
             echo "titulo <input type = 'text' name = 'titulo' size = '100' maxlength='100'> </br>";

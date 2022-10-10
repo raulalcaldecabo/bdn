@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cambiar foto curso</title>
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
+    <title>cambiar foto profe</title>
 </head>
 
 <body>   
@@ -29,7 +30,7 @@ if(isset($_SESSION["rol"])){
         if(isset($_GET['Numero'])){
             $_SESSION['ID'] = $_GET['Numero'];
             $id = $_GET['Numero'];
-            echo "<form action = 'fotoProfesor.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
+            echo "<form class = 'formulario' action = 'fotoProfesor.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
             echo "<input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
             echo "foto <input type = 'file' name = 'foto'> </br>";
             echo "<input type='submit' name='enviar' value='enviar'>";
@@ -64,12 +65,12 @@ if(isset($_SESSION["rol"])){
                     echo "<h1> Modificación realizada con éxito </h1>";
                     if($_SESSION["rol"] == 1){
                         ?>
-                            <meta http-equiv="refresh" content="0; url= modificarProfesor.php">
+                            <meta http-equiv="refresh" content="1; url= adminProf.php">
                         <?php
                     }
                     if($_SESSION["rol"] == 3){
                         ?>
-                            <meta http-equiv="refresh" content="0; url= profesorFrontal.php">
+                            <meta http-equiv="refresh" content="1; url= profesorFrontal.php">
                         <?php
                     }
                     

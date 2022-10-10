@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
     <title>modificarProfesor</title>
 </head>
 
@@ -35,9 +36,9 @@ if(isset($_SESSION["rol"])){
             $linea = mysqli_fetch_array($profesor);
         
             //formulario de modificación profesor
-            echo "<form action = 'modificarProfesor.php' method = 'POST' name = 'modificarProfesor'>";
-            echo "Editar profesor </br>";
-            echo "ID <input type = 'hidden' name = 'ID' value = '$linea[0]' size = '3' maxlength='3'></br>";
+            echo "<form class='formulario' action = 'modificarProfesor.php' method = 'POST' name = 'modificarProfesor'>";
+            echo "<h2>Editar profesor</h2> </br>";
+            echo "<input type = 'hidden' name = 'ID' value = '$linea[0]' size = '3' maxlength='3'></br>";
             echo "DNI <input type = 'text' name = 'DNI' value = '$linea[1]' size = '8' maxlength='8'> </br>";
             echo "nombre <input type = 'text' name = 'nombre' value = '$linea[2]' size = '50' maxlength='50'> </br>";
             echo "apellido <input type = 'text' name = 'apellido' value = '$linea[3]' size = '50' maxlength='50'> </br>";

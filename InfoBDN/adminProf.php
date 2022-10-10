@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>modificar profesores</title>
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
+    <title>administrar profesores</title>
 </head>
 <body>
 <?php 
@@ -34,13 +35,12 @@ if(isset($_SESSION["rol"])){
         else{
             encabezado();
             navegacion();
-            echo "<h1> Profes InfoBDN </h1>";
 
             //formulario buscador
-            echo "<form action = 'resultadoProf.php' method = 'POST' name = 'buscador'>";
+            echo "<form class= 'buscador' action = 'resultadoProf.php' method = 'POST' name = 'buscador'>";
             echo "buscador:<input type='text' id='buscador' name='buscador' `placeholder='buscador'";
-            echo "<button type='submit'>Buscar</button>";
-            echo "</form>";
+            echo "<button type='submit'></button>";
+            echo "</form></br>";
             
             $BBDD ="infobdn";
 
@@ -48,11 +48,6 @@ if(isset($_SESSION["rol"])){
             tablaProfes($profes);
             $numlineas = mysqli_num_rows($profes);
     
-           
-            echo "<form>";
-            echo "<form action = anadir.php method = 'POST' name = 'añadir'>";
-            echo "<input type='submit' value='anadir'>";
-            echo "</form>";
         }        
         
     }

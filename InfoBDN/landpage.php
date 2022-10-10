@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>landpage</title>
-    <link type="text/css" rel="stylesheet" href="landpage.css">
+    <link type="text/css" rel="stylesheet" href="estilos/landpage.css">
 
 </head>
 
@@ -60,12 +60,6 @@
                     <?php
                 }
             }
-            else{
-                echo 'Selecciona profesor o alumno';
-                ?>
-                <meta http-equiv="refresh" content="5; url= landpage.php">
-                <?php
-            }
         }
        
     }
@@ -83,7 +77,7 @@
         <form class = "form" action="landpage.php" method="POST"  name="dades">
             DNI<input type="text" name="usuario" size="8" maxlength="8"><br/>
             Contraseña<input type="password" name="password" size="10" maxlength="10"> <br/>
-            Alumno <input type="radio" name="user" value="Alumno">
+            Alumno <input type="radio" name="user" value="Alumno" checked>
             Profesor <input type="radio" name="user" value="Profesor"><br/>
             <div class="botones">
                 <input type="submit" name="entrar" value="Entrar">

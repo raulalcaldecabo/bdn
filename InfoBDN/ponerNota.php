@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
     <title>poner nota</title>
 </head>
 <body>
@@ -22,19 +23,17 @@ if(isset($_SESSION["rol"])){
         if(isset($_GET['Numero'])){
             $id= $_GET['Numero'];
             $BBDD="infobdn";
+            encabezado();
+            navegacion();
 
             $consulta = modificarAlumno($BBDD,$id);
             $linea = mysqli_fetch_array($consulta);
-            echo "<h3> Selecciona la nota de ".$linea[2]." ".$linea[3]." </h3></br>";
-            echo "<form action = 'ponerNota.php' method = 'POST' name = 'nota'>";
+            echo "<h2> Selecciona la nota de ".$linea[2]." ".$linea[3]." </h2></br>";
+            echo "<form class = 'formulario' action = 'ponerNota.php' method = 'POST' name = 'nota'>";
             echo "Nota <input type = 'text' name = 'nota' value = 'nota' size = '4' maxlength='4'> </br>";
             echo "<input type = 'hidden' name = 'ID' value = '$id' size = '3' maxlength='3'></br>";
             echo "<input type='submit' value='modificar'>";
             echo "</form>";
-
-            echo "<h1> ¿Qué gestión deseas realizar? </h1></br>";
-            echo "<a href='profesorFrontal.php'> volver a página principal </a></br>";
-            echo "<a href='destruirSesion.php'>Salir de la sesión</a>";
 
         }
         else if(isset($_POST['nota'])){
@@ -46,7 +45,7 @@ if(isset($_SESSION["rol"])){
                 mysqli_connect_error();
             }
             else{
-                $sql = "UPDATE INTO matricula SET Nota = '$nota' WHERE idMatricula = '$id'"; 
+                $sql = "UPDATE matricula SET Nota = '$nota' WHERE idMatricula = '$id'"; 
                 $consulta = mysqli_query($conexion, $sql);
                 if ($consulta == false){
                     mysqli_error($conexion);

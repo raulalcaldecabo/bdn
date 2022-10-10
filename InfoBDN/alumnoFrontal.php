@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="landpage.css">
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
     <title>principal alumno</title>
 </head>
 <body>
@@ -34,13 +34,10 @@ if(isset($_SESSION["rol"])){
             $apellido = $usuario[3];
             encabezado();
             navegacion();
-            echo "<h1> Hola $usuario[2] $usuario[3]</h1></br>";
+            echo "<h2> Hola $usuario[2] $usuario[3]</h2></br>";
             $matriculas = consultaMatriculas($id);
             alumnoMatriculas($matriculas);
-            echo "<h1> ¿Qué gestión deseas realizar? </h1></br>";
-            echo "<a href='consultarCursos.php'> consultar cursos </a></br>";
-            echo "<a href='modificarAlumno.php'>Editar alumno</a></br>";
-            echo "<a href='fotoAlumno.php'>Editar foto alumno</a></br>";
+            
         }
           
     }

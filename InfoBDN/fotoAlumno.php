@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cambiar foto curso</title>
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
+    <title>cambiar foto alumno</title>
 </head>
 
 <body>   
@@ -18,13 +19,13 @@ include("funcionesBdn.php");
 // comprobamos si el usuario está conectado
 if(isset($_SESSION["rol"])){
     if($_SESSION["rol"] == 2){
-        $usuario = $_SESSION["alumno"];
-        $id = $usuario[0];
-        $nombre = $usuario[2];
-        $apellido = $usuario[3];
-
+        encabezado();
+        navegacion();
         if(isset($_FILES['foto'])){
-            $id = $_SESSION['ID'];
+            $usuario = $_SESSION["alumno"];
+            $id = $usuario[0];
+            $nombre = $usuario[2];
+            $apellido = $usuario[3];
             if(is_uploaded_file($_FILES['foto']['tmp_name'])){
                 $nombreDirectorio = "imagen/";
                 $idUnico = $id;
@@ -57,11 +58,14 @@ if(isset($_SESSION["rol"])){
             } 
         }
         else{
-            encabezado();
-            navegacion();
-            echo "<form action = 'fotoAlumno.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
+            $usuario = $_SESSION["alumno"];
+            $id = $usuario[0];
+            $nombre = $usuario[2];
+            $apellido = $usuario[3];
+            
+            echo "<form class = 'formulario' action = 'fotoAlumno.php' method = 'POST' name = 'foto' ENCTYPE = 'multipart/form-data'>";
             echo "<input type = 'hidden' name = 'Numero' value = '$id' size = '3' maxlength='3'></br>";
-            echo "foto <input type = 'file' name = 'foto'> </br>";
+            echo "Foto <input type = 'file' name = 'foto'> </br>";
             echo "<input type='submit' name='enviar' value='enviar'>";
             echo "</form>";
         }

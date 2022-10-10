@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
     <title> administrar cursos</title>
 </head>
 <body>
@@ -35,9 +36,9 @@ if(isset($_SESSION["rol"])){
             encabezado();
             navegacion();
 
-            echo "<form action = 'resultado.php' method = 'POST' name = 'buscador'>";
+            echo "<form class= 'buscador' action = 'resultado.php' method = 'POST' name = 'buscador'>";
             echo "buscador:<input type='text' id='buscador' name='buscador' placeholder='buscador'";
-            echo "<button type='submit'>Buscar</button>";
+            echo "<button type='submit'></button>";
             echo "</form>";
 
             $BBDD="infobdn";

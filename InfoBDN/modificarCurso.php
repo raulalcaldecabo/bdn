@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
     <title>modificarCurso</title>
 </head>
 
@@ -33,9 +34,9 @@ if(isset($_SESSION["rol"])){
             $total=mysqli_num_rows($profesor);
             
             //formulario de modificación curso
-            echo "<form action = 'modificarCurso.php' method = 'POST' name = 'modificar'>";
-            echo "Editar curso </br>";
-            echo "Codigo curso <input type = 'hidden' name = 'Numero' value = '$linea[0]' size = '3' maxlength='3'></br>";
+            echo "<form class='formulario' action = 'modificarCurso.php' method = 'POST' name = 'modificar'>";
+            echo "<h2>Editar curso</h2> </br>";
+            echo "<input type = 'hidden' name = 'Numero' value = '$linea[0]' size = '3' maxlength='3'></br>";
             echo "Nombre <input type = 'text' name = 'nombre' value = '$linea[1]' size = '50' maxlength='50'></br>";
             echo "Descripción <input type = 'text' name = 'descripcion' value = '$linea[2]' size = '100' maxlength='100'></br>";
             echo "Duración <input type = 'text' name = 'duracion' value = '$linea[3]' size = '11' maxlength='11'></br>";
@@ -45,10 +46,10 @@ if(isset($_SESSION["rol"])){
             for($i=0; $i<$total;$i++){
                 $fila = mysqli_fetch_array($profesor);
                 if($fila[0]==$linea[6]){
-                    echo "<option selected= 'selected' value=".$fila[0].">".$fila[1]."</option>";
+                    echo "<option selected= 'selected' value=".$fila[0].">".$fila[2]."</option>";
                 }
                 else{
-                    echo "<option value=".$fila[0].">".$fila[1]."</option>";
+                    echo "<option value=".$fila[0].">".$fila[2]."</option>";
                 }
             }
             echo "</select>";

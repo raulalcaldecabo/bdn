@@ -46,7 +46,7 @@
             $linea = mysqli_fetch_array($consulta);
             //comprobamos los datos del usuario con la base de datos y los guardamos como sesión
             $prueba = md5($password);
-            if($prueba == $linea[5]){
+            if($prueba == $linea[5] && $usuario = $linea[1]){
                 $_SESSION["alumno"] = $linea;
                 $_SESSION["rol"] = 2;
                 $correcto = 1;
@@ -66,7 +66,7 @@
             $linea = mysqli_fetch_array($consulta);
             //comprobamos los datos del usuario con la base de datos y los guardamos como sesión
             $prueba = md5($password);
-            if($prueba == $linea[6]){
+            if($prueba == $linea[6] && $usuario = $linea[1]){
                 $_SESSION["profesor"] = $linea;
                 $_SESSION["rol"] = 3;
                 $correcto = 1;
@@ -95,7 +95,7 @@
         //tabla de cursos de admincursos.php
         function tablaCursos($cursos){
             $numlineas = mysqli_num_rows($cursos);
-            echo "<h1> Cursos BDN </h1>";
+            echo "<h2> Cursos BDN </h2>";
             echo "<table>";
             echo "<tr>";
             echo "<th>ID</th>";
@@ -108,8 +108,8 @@
             echo "<th>Activo</th>";
             echo "<th>foto</th>";
             echo "<th>Mod. estado</th>";
-            echo "<th>Modificar curso</th>";
-            echo "<th>Modificar foto</th>";
+            echo "<th>Mod. curso</th>";
+            echo "<th>Mod. foto</th>";
             echo "</tr>";
             foreach($cursos as $curso => $campo){
                 $id=$campo["ID"];
@@ -129,8 +129,8 @@
                 else{
                     echo "<td> $<a href=estadoCurso.php?Numero=$id>Desactivar</a></td>";
                 }
-                echo "<td> <a href='modificarCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
-                echo "<td> <a href='fotoCurso.php?Numero=".$id."'> <img src='imagen/espejo.png' width='80'></a> </td>";
+                echo "<td> <a href='modificarCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='30'></a> </td>";
+                echo "<td> <a href='fotoCurso.php?Numero=".$id."'> <img src='imagen/espejo.png' width='30'></a> </td>";
                 echo "</tr>";
             }
             echo "</table>";
@@ -164,7 +164,7 @@
             }
             else{
                 //generamos la query
-                $sql = "SELECT * from profesores";
+                $sql = "SELECT ID, dni, nombre, apellido, titulo, mail, activo, pfoto from profesores";
             }
             //la enviamos a la base de datos
             $consulta = mysqli_query($conexion, $sql);
@@ -176,6 +176,7 @@
         
         //Tabla de profesores de adminProf.php
         function tablaProfes($profes){
+            echo "<h2> Profesores </h2>";
             echo "<table>";
             echo "<tr>";
             echo "<th>ID</th>";
@@ -184,12 +185,11 @@
             echo "<th>apellido1</th>";
             echo "<th>titulo</th>";
             echo "<th>mail</th>";
-            echo "<th>contraseña</th>";
             echo "<th>Activo</th>";
             echo "<th>foto</th>";
             echo "<th>Mod. estado</th>";
-            echo "<th>Modificar profesor</th>";
-            echo "<th>Modificar foto</th>";
+            echo "<th>Mod. profesor</th>";
+            echo "<th>Mod. foto</th>";
             echo "</tr>";
             foreach($profes as $profe => $campo){
                 $id=$campo["ID"];
@@ -210,8 +210,8 @@
                 else{
                     echo "<td> $<a href=estadoProfesor.php?Numero=$id>Desactivar</a></td>";
                 }
-                echo "<td> <a href='modificarProfesor.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
-                echo "<td> <a href='fotoProfesor.php?Numero=".$id."'> <img src='imagen/espejo.png' width='80'></a> </td>";
+                echo "<td> <a href='modificarProfesor.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='30'></a> </td>";
+                echo "<td> <a href='fotoProfesor.php?Numero=".$id."'> <img src='imagen/espejo.png' width='30'></a> </td>";
                 echo "</tr>";
             }
         
@@ -372,7 +372,7 @@
         //mostrar los cursos a los que se ha matriculado el alumno
         function alumnoMatriculas($matriculas){
             $numlineas = mysqli_num_rows($matriculas);
-            echo "<h1> Cursos BDN </h1>";
+            echo "<h2> Cursos BDN </h2>";
             echo "<table>";
             echo "<tr>";
             echo "<th>ID</th>";
@@ -398,7 +398,7 @@
         }
 
         //todos los cursos disponibles para el alumno
-        function cursosDisponibles($BBDD){
+        function cursosDisponibles($BBDD, $id){
             $fecha_actual = date("Y-m-d");
             $conexion = conectar($BBDD);
             if ($conexion == false){
@@ -406,7 +406,7 @@
             }
             else{
                 //generamos la query
-                $sql = "SELECT * from cursos where $fecha_actual <= inicio" ;
+                $sql = "SELECT * from cursos where $fecha_actual <= inicio and ID not in (select idCurso from matricula where idAlumno = $id)" ;
             }
             //la enviamos a la base de datos
             $consulta = mysqli_query($conexion, $sql);
@@ -436,7 +436,7 @@
         }
 
         //Los alumnos de los cursos en la tabla profesor
-        function alumnosCursos($id){
+        function cursosProfesor($id){
             $BBDD = 'infobdn';
             $conexion = conectar($BBDD);
             if ($conexion == false){
@@ -444,7 +444,7 @@
             }
             else{
                 //generamos la query
-                $sql = "SELECT cursos.ID, cursos.nombre, cursos.inicio, cursos.final, alumnos.ID, alumnos.dni, alumnos.nombre, alumnos.apellido, alumnos.foto, matricula.nota, cursos.final, matricula.idMatricula from ((matricula inner join cursos on matricula.idCurso = cursos.ID) inner join profesores on cursos.profesor = profesores.ID) inner join alumnos on matricula.idAlumno = alumnos.ID where cursos.profesor = '$id'";
+                $sql = "SELECT ID, nombre, inicio, final  from  cursos where profesor = '$id'";
             }
             //la enviamos a la base de datos
             $consulta = mysqli_query($conexion, $sql);
@@ -454,15 +454,63 @@
             return $consulta;
 
         }
+        function tablaCursosProfesor($consulta, $nombre, $apellido){
+            $fecha_actual = date("Y-m-d");
+            $numlineas = mysqli_num_rows($consulta);
+            echo "<h2> Cursos de $nombre $apellido</h2>";
+            echo "<table>";
+            echo "<tr>";
+            echo "<th> Nombre </th>";
+            echo "<th> Inicio </th>";
+            echo "<th> Final </th>";
+            echo "</tr>";
+            $i=0;
+            $numlineas = mysqli_num_rows($consulta);
+            while($i< $numlineas){
+                $linea = mysqli_fetch_array($consulta);
+                $id = $linea[0];
+                echo "<tr>";
+                echo "<td> $linea[1] </td>";
+                echo "<td> $linea[2] </td>";
+                echo "<td> $linea[3] </td>";
+                if($fecha_actual >= $linea[3]){
+                    echo "<td> <a href='tablaCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='30'></a> </td>";
+                }
+                else{
+                    echo "<td> Pendiente </td>";
+                }
+                echo "</tr>";
+                $i++;
+            }
+            echo "</table>";
+        }
+
+        //busca los alumnos de un curso para el profesor
+        function alumnosCurso($BBDD, $id){
+            $conexion = conectar($BBDD);
+            if ($conexion == false){
+                mysqli_connect_error();
+            }
+            else{
+                //generamos la query
+                $sql = "SELECT cursos.nombre, alumnos.dni, alumnos.nombre, alumnos.apellido, alumnos.foto, matricula.nota, matricula.idAlumno, cursos.final from (alumnos inner join matricula on matricula.idAlumno = alumnos.ID) inner join cursos on matricula.idCurso = cursos.ID  WHERE matricula.idCurso = $id";
+                //la enviamos a la base de datos
+            }    
+            $consulta = mysqli_query($conexion, $sql);
+            if ($consulta == false){
+                mysqli_error($conexion);
+            }
+        
+            return $consulta;
+        }
 
         // tabla de los alumnos en el frontal del profesor
         function tablaAlumnos($consulta){
             $fecha_actual = date("Y-m-d");
             $numlineas = mysqli_num_rows($consulta);
-            echo "<h1> Cursos BDN </h1>";
+            echo "<h2> Alumnos del curso </h2>";
             echo "<table>";
             echo "<tr>";
-            echo "<th> Curso </th>";
             echo "<th> DNI </th>";
             echo "<th> Nombre </th>";
             echo "<th> Apellido </th>";
@@ -473,19 +521,19 @@
             $numlineas = mysqli_num_rows($consulta);
             while($i< $numlineas){
                 $linea = mysqli_fetch_array($consulta);
-                $id = $linea[11];
+                $id = $linea[6];
+                $foto = $linea[4];
                 echo "<tr>";
                 echo "<td> $linea[1] </td>";
+                echo "<td> $linea[2] </td>";
+                echo "<td> $linea[3] </td>";
+                echo "<td> <img width='50' height = '50' src = ".$foto." </td>";
                 echo "<td> $linea[5] </td>";
-                echo "<td> $linea[6] </td>";
-                echo "<td> $linea[7] </td>";
-                echo "<td> $linea[8] </td>";
-                echo "<td> $linea[9] </td>";
-                if($fecha_actual >= $linea[10]){
-                    echo "<td> <a href='ponerNota.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='80'></a> </td>";
+                if($fecha_actual >= $linea[7]){
+                    echo "<td> <a href='ponerNota.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='30'></a> </td>";
                 }
                 else{
-                    echo "<td> $linea[10] </td>";
+                    echo "<td> $linea[7] </td>";
                 }
                 echo "</tr>";
                 $i++;
@@ -530,8 +578,8 @@
         //El encabezado de casi todas las páginas
         function encabezado(){
             ?>
-            <header>
-                <img alt="logo" src="imagen/Logo.png" width = "150px" heigth= "150px"/>
+            <header class="encabezado">
+                <img alt="logo" src="imagen/Logo.png" width = "100px" heigth= "100px"/>
                 <h1>INFOBDN, ENCANTADOS DE FORMARTE</h1>
                 <a href="destruirSesion.php">
                     <button class="admin">Salir de la sesión.</button>
@@ -545,7 +593,7 @@
             if($_SESSION["rol"] == 2){
                 ?>
                 <nav class="menu">
-                    <ul>
+                    <ul class="navlist">
                         <li><a href="consultarCursos.php">Cursos</a></li>
                         <li><a href="modificarAlumno.php">Editar perfil</a></li>
                         <li><a href="fotoAlumno.php">Foto</a></li>

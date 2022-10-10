@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="estilos/general.css">
     <title>consultar cursos</title>
 </head>
 <body>
@@ -41,23 +42,26 @@ if(isset($_SESSION["rol"])){
         else{
             encabezado();
             navegacion();
-            echo "<h1> cursos disponibles para ti $usuario[2] $usuario[3]</h1></br>";
+            echo "<h2> cursos disponibles para ti $usuario[2] $usuario[3]</h2></br>";
             $BBDD="infobdn";
-            $consulta = cursosDisponibles($BBDD);
+            $consulta = cursosDisponibles($BBDD, $id);
             $i=0;
             $numlineas = mysqli_num_rows($consulta);
             while($i< $numlineas){
                 $linea = mysqli_fetch_array($consulta);
                 $id=$linea[0];
-                echo "<div>";
-                echo "<p> $linea[1] </p>";
-                echo "<p> $linea[8] </p>";
+                $foto=$linea[8];
+                echo "<div class = 'cursos'>";
+                echo "<h2> $linea[1] </h2>";
+                echo "<img height = '500px' width= '500px' src = ".$foto." <br/>";
                 echo "<p> $linea[2] </p>";
-                echo "<p> $linea[3] </p>";
-                echo "<p> $linea[4] </p>";
-                echo "<p> $linea[5] </p>";
+                echo "<p class='negrita'> $linea[3] horas en total</p>";
+                echo "<p class='negrita'> Fecha de inicio: $linea[4] </p>";
+                echo "<p class='negrita'> Fecha fin:  $linea[5] </p>";
+                echo " <br/>";
                 echo "<a href='consultarCursos.php?Numero=".$id."'><button class='Matricula'> matricularse </button></a>";
                 echo "</div>";
+                echo " <br/>";
                 $i++;
             }
         }

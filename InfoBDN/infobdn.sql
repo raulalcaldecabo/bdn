@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-10-2022 a las 08:11:23
+-- Tiempo de generación: 10-10-2022 a las 12:35:57
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -64,7 +64,10 @@ CREATE TABLE `alumnos` (
 --
 
 INSERT INTO `alumnos` (`ID`, `dni`, `nombre`, `apellido`, `mail`, `contrasena`, `activo`, `foto`) VALUES
-(1, 0, 'paquito', 'chocolatero', 'paco@choco.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, '');
+(1, 11111111, 'paquito', 'chocolatero', 'paco@choco.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/1-charles-manson.jpeg'),
+(6, 22222222, 'pedro', 'picapiedra', 'pedro@picapiedra', '827ccb0eea8a706c4c34a16891f84e7b', 1, ''),
+(7, 33333333, 'pablo', 'marmol', 'pablo@marmol.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, ''),
+(8, 44444444, 'vampirella', 'vampira', 'vampirella@vamp.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, '');
 
 -- --------------------------------------------------------
 
@@ -89,12 +92,12 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`ID`, `nombre`, `descripcion`, `duracion`, `inicio`, `final`, `profesor`, `activo`, `cfoto`) VALUES
-(1, 'web', 'otr curso', 50, '2022-10-05', '2022-11-03', 1, '1', ''),
-(2, 'desarrollo web', 'un curso', 80, '2022-09-01', '2022-09-30', 1, '1', ''),
-(3, 'ofimatica', 'mas curso', 60, '2022-11-24', '2022-12-09', 1, '1', ''),
-(4, 'ofimatica', 'otro curso', 60, '2022-11-24', '2022-12-09', 1, '1', ''),
-(5, 'redes', 'otro curso sin mas', 100, '2022-11-24', '2022-12-09', 1, '1', ''),
-(7, 'onanismo', 'el consuelo del solitario', 1, '2022-11-24', '2022-11-24', 1, '1', '');
+(1, 'web', 'otr curso', 50, '2022-10-05', '2022-11-03', 2, '1', 'imagen/1-web.jpg'),
+(2, 'desarrollo web', 'un curso', 80, '2022-09-01', '2022-09-30', 2, '1', 'imagen/2-World_wide_web.jpg'),
+(3, 'ofimatica', 'mas curso', 60, '2022-11-24', '2022-12-09', 5, '1', 'imagen/3-daisi-ofimatica-ofimatica.jpg'),
+(4, 'ofimatica', 'otro curso', 60, '2022-11-24', '2022-12-09', 5, '1', 'imagen/4-Curso_Ofimatica.jpg'),
+(5, 'redes', 'otro curso sin mas', 100, '2022-11-24', '2022-12-09', 8, '1', 'imagen/5-redes.jpg'),
+(7, 'onanismo', 'el consuelo del solitario', 1, '2022-11-24', '2022-11-24', 8, '1', 'imagen/7-red.jpg');
 
 -- --------------------------------------------------------
 
@@ -114,8 +117,14 @@ CREATE TABLE `matricula` (
 --
 
 INSERT INTO `matricula` (`idMatricula`, `idCurso`, `IdAlumno`, `Nota`) VALUES
-(1, 2, 1, 0),
-(2, 3, 1, 0);
+(1, 2, 1, 7),
+(2, 3, 1, 0),
+(4, 4, 6, 0),
+(5, 4, 8, 0),
+(6, 2, 6, 0),
+(7, 3, 8, 0),
+(8, 5, 7, 0),
+(9, 4, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -141,10 +150,10 @@ CREATE TABLE `profesores` (
 
 INSERT INTO `profesores` (`ID`, `dni`, `nombre`, `apellido`, `titulo`, `mail`, `contrasena`, `activo`, `pfoto`) VALUES
 (1, 99999999, 'sinprofe', 'sinprofe', 'uno', '', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/1-unjonkie.jpg'),
-(2, 46543456, 'pedro', 'maravilla', 'dos', 'pedro@pedro.es', '827ccb0eea8a706c4c34a16891f84e7b', 1, ''),
-(3, 44667788, 'armando', 'bronca', 'no titulo', 'uno@otro.com', '827ccb0eea8a706c4c34a16891f84e7b', 0, ''),
-(5, 66774499, 'notingan', 'prisas', 'muchos', 'paso', '827ccb0eea8a706c4c34a16891f84e7b', 1, ''),
-(8, 99887766, 'magic', 'andreu', 'dos titulos', 'uno@otro.es', '827ccb0eea8a706c4c34a16891f84e7b', 1, '');
+(2, 11111111, 'pedro', 'maravilla', 'dos', 'pedro@pedro.es', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/2-jonkie2.jpg'),
+(3, 22222222, 'armando', 'bronca', 'no titulo', 'uno@otro.com', '827ccb0eea8a706c4c34a16891f84e7b', 0, 'imagen/3-jonkie3.jpg'),
+(5, 33333333, 'notingan', 'prisas', 'muchos', 'paso', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/5-jonkie6.jpg'),
+(8, 44444444, 'magic', 'andreu', 'dos titulos', 'uno@otro.es', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/8-jonki5.jpg');
 
 --
 -- Índices para tablas volcadas
@@ -197,19 +206,19 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `idMatricula` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idMatricula` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `profesores`
