@@ -37,6 +37,7 @@ if(isset($_SESSION["rol"])){
             echo "<h2> Hola $usuario[2] $usuario[3]</h2></br>";
             $matriculas = consultaMatriculas($id);
             alumnoMatriculas($matriculas);
+            footer();
             
         }
           

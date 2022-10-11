@@ -32,6 +32,7 @@
             encabezado();
             navegacion();
             echo "<h1> Tus gestiones administrador</h1></br>";
+            footer();
         }
         else{
             echo 'Usuario o contraseña incorrectos';
@@ -67,6 +68,7 @@
             </div>                   
         </form>
         <?php
+        footer();
     } 
     ?> 
 </body>

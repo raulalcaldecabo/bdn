@@ -45,7 +45,7 @@ if(isset($_SESSION["rol"])){
 
             $cursos = consultaCursos($BBDD);
             tablaCursos($cursos);
-
+            footer();
         }     
         
     }

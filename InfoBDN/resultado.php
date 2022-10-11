@@ -70,7 +70,7 @@ if(isset($_SESSION["rol"])){
                         echo "<td> <a href='fotoCurso.php?Numero=".$id."'> <img src='imagen/espejo.png' width='30'></a> </td>";
                         echo "</tr>";
                     }
-
+                    footer();
                 }
                 else{
                     echo "<h1> No hay cursos que coincidan con esa busqueda </h1>";

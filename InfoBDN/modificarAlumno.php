@@ -69,7 +69,8 @@ if(isset($_SESSION["rol"])){
             echo "<input type='submit' value='modificar'>";
             echo "</form>";
             echo "</br>";
-        
+            
+            footer();
         }
             
     }

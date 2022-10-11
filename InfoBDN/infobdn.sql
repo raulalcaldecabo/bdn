@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2022 a las 12:35:57
+-- Tiempo de generación: 11-10-2022 a las 10:26:58
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -92,12 +92,12 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`ID`, `nombre`, `descripcion`, `duracion`, `inicio`, `final`, `profesor`, `activo`, `cfoto`) VALUES
-(1, 'web', 'otr curso', 50, '2022-10-05', '2022-11-03', 2, '1', 'imagen/1-web.jpg'),
-(2, 'desarrollo web', 'un curso', 80, '2022-09-01', '2022-09-30', 2, '1', 'imagen/2-World_wide_web.jpg'),
-(3, 'ofimatica', 'mas curso', 60, '2022-11-24', '2022-12-09', 5, '1', 'imagen/3-daisi-ofimatica-ofimatica.jpg'),
-(4, 'ofimatica', 'otro curso', 60, '2022-11-24', '2022-12-09', 5, '1', 'imagen/4-Curso_Ofimatica.jpg'),
-(5, 'redes', 'otro curso sin mas', 100, '2022-11-24', '2022-12-09', 8, '1', 'imagen/5-redes.jpg'),
-(7, 'onanismo', 'el consuelo del solitario', 1, '2022-11-24', '2022-11-24', 8, '1', 'imagen/7-red.jpg');
+(1, 'web', 'Estudiant aquest cicle formatiu obtindràs la titulació de tècnic o tècnica superior en desenvolupame', 50, '2022-10-05', '2022-11-03', 2, '1', 'imagen/1-web.jpg'),
+(2, 'desarrollo web', 'Estudiant aquest cicle formatiu obtindràs la titulació de tècnic o tècnica superior en desenvolupame', 80, '2022-09-01', '2022-09-30', 2, '1', 'imagen/2-World_wide_web.jpg'),
+(3, 'ofimatica', 'Las herramientas de Word, Excel u Office o de correo como Outlook, son las principales herramientas ', 60, '2022-11-24', '2022-12-09', 5, '1', 'imagen/3-daisi-ofimatica-ofimatica.jpg'),
+(4, 'ofimatica', 'Las herramientas de Word, Excel u Office o de correo como Outlook, son las principales herramientas ', 60, '2022-11-24', '2022-12-09', 5, '1', 'imagen/4-Curso_Ofimatica.jpg'),
+(5, 'redes', 'Las redes son los mecanismos que se utilizan para transmitir información entre dos puntos a través d', 100, '2022-11-24', '2022-12-09', 8, '1', 'imagen/5-redes.jpg'),
+(7, 'onanismo', 'el consuelo del solitario.\r\nAcción y efecto de masturbar o masturbarse.', 1, '2022-11-24', '2022-11-24', 8, '1', 'imagen/7-red.jpg');
 
 -- --------------------------------------------------------
 

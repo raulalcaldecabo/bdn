@@ -46,7 +46,8 @@ if(isset($_SESSION["rol"])){
             echo "mail <input type = 'text' name = 'mail' value = '$linea[5]' size = '100' maxlength='50'> </br>";
             echo "<input type='submit' value='modificar'>";
             echo "</form>";
-        
+            
+            footer();
         }
         else{
             if(isset($_POST)){

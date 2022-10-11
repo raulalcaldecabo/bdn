@@ -70,6 +70,8 @@ if(isset($_SESSION["rol"])){
             echo "<input type='submit' name='crear' value='crear'>";
             echo "</form>";
             echo "</br>";
+
+            footer();
         } 
       
 

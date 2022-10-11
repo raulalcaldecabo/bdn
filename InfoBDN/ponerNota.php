@@ -35,6 +35,8 @@ if(isset($_SESSION["rol"])){
             echo "<input type='submit' value='modificar'>";
             echo "</form>";
 
+            footer();
+
         }
         else if(isset($_POST['nota'])){
             $id = $_POST['ID'];

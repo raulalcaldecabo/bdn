@@ -67,6 +67,8 @@
             echo "contrasena <input type = 'text' name = 'contrasena' size = '35' maxlength='35'> </br>";
             echo "<input type='submit' name='crear' value='crear'>";
             echo "</form>";
+
+            footer();
     } 
     ?> 
 </body>

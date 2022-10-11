@@ -36,6 +36,8 @@ if(isset($_SESSION["rol"])){
         echo "<a href='fotoProfesor.php?Numero=".$id."'> modificar foto </a>";
         echo "</div>";
 
+        footer();
+
     }
     else{
         echo "<h1> Has de estar validado para ver esta página </h1>";

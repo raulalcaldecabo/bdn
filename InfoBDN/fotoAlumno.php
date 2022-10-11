@@ -69,6 +69,7 @@ if(isset($_SESSION["rol"])){
             echo "<input type='submit' name='enviar' value='enviar'>";
             echo "</form>";
         }
+        footer();
     }
     else{
         echo "<h1> No tienes permisos para ver esta página </h1>";

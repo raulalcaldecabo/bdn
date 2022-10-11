@@ -35,6 +35,8 @@ if(isset($_SESSION["rol"])){
             echo "foto <input type = 'file' name = 'foto'> </br>";
             echo "<input type='submit' name='enviar' value='enviar'>";
             echo "</form>";
+
+            footer();
         }
         if(isset($_FILES['foto'])){
             $id = $_SESSION['ID'];

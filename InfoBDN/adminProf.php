@@ -47,7 +47,8 @@ if(isset($_SESSION["rol"])){
             $profes = consultaProfes($BBDD);
             tablaProfes($profes);
             $numlineas = mysqli_num_rows($profes);
-    
+            
+            footer();
         }        
         
     }

@@ -622,7 +622,25 @@
                 echo "</nav>";
             }
         }
-      
+        // el footer de todas las páginas
+        function footer(){
+            ?>
+            <footer class="pie">
+                <ul class="soluciones">
+                    <li>Soluciones</li>
+                    <li><a href="particulares.php">Particulares/</a></li>
+                    <li><a href="empresas.php">Empresas</a></li>
+                    <li><a href="centros.php">Centros Educativos</a></li>
+                </ul>
+                <ul class="acerca">
+                    <li>Acerca de </li>
+                    <li><a href="nosotros.php">Nosotros/</a></li>
+                    <li><a href="aviso.php">Aviso Legañ</a></li>
+                    <li><a href="privacidad.php">recursos</a></li>
+                </ul>
+            </footer>   
+            <?php 
+        }
         function borrarCurso($eliminar,$conexion){
             $sql = "DELETE FROM matricula WHERE idCurso = $eliminar";
             $consulta = mysqli_query($conexion, $sql);

@@ -71,6 +71,7 @@ if(isset($_SESSION["rol"])){
                         echo "<td> <a href='fotoProfesor.php?Numero=".$id."'> <img src='imagen/espejo.png' width='30'></a> </td>";
                         echo "</tr>";
                     }
+                    footer();
 
                 }
                 else{

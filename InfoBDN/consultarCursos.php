@@ -64,7 +64,8 @@ if(isset($_SESSION["rol"])){
                 echo " <br/>";
                 $i++;
             }
-        }
+            footer();
+        }   
     }
     else{
         echo "<h1> No tienes permisos para ver esta página </h1>";

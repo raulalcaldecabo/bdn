@@ -56,6 +56,8 @@ if(isset($_SESSION["rol"])){
             echo "<input type='submit' value='modificar'>";
             echo "</form>"; 
 
+            footer();
+
         }
         else{
             if(isset($_POST)){
@@ -79,6 +81,7 @@ if(isset($_SESSION["rol"])){
                     }
                 }    
             }
+            footer();
             ?>
                 <meta http-equiv="refresh" content="1; url= adminCursos.php">
             <?php
