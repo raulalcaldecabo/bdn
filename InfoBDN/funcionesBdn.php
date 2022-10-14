@@ -37,7 +37,7 @@
         //función para validar alumnos
         function validarAlumno($conexion, $usuario, $password){
             $correcto=0;
-            $sql = "SELECT * from alumnos where  contrasena = md5('$password')";
+            $sql = "SELECT * from alumnos where  contrasena = md5('$password') and dni = $usuario";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);
@@ -57,7 +57,7 @@
         //función para validar profesores
         function validarProfesor($conexion, $usuario, $password){
             $correcto=0;
-            $sql = "SELECT * from profesores where dni ='$usuario' and contrasena = md5('$password')";
+            $sql = "SELECT * from profesores where dni ='$usuario' and contrasena = md5('$password') and dni = $usuario";
             $consulta = mysqli_query($conexion, $sql);
             if ($consulta == false){
                 mysqli_error($conexion);
@@ -473,12 +473,15 @@
                 echo "<td> $linea[1] </td>";
                 echo "<td> $linea[2] </td>";
                 echo "<td> $linea[3] </td>";
+                echo "<td> <a href='tablaCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='30'></a> </td>";
+                /*
                 if($fecha_actual >= $linea[3]){
                     echo "<td> <a href='tablaCurso.php?Numero=".$id."'> <img src='imagen/lapiz.png' width='30'></a> </td>";
                 }
                 else{
                     echo "<td> Pendiente </td>";
                 }
+                */
                 echo "</tr>";
                 $i++;
             }
@@ -628,14 +631,14 @@
             <footer class="pie">
                 <ul class="soluciones">
                     <li>Soluciones</li>
-                    <li><a href="particulares.php">Particulares/</a></li>
+                    <li><a href="particulares.php">Particulares</a></li>
                     <li><a href="empresas.php">Empresas</a></li>
                     <li><a href="centros.php">Centros Educativos</a></li>
                 </ul>
                 <ul class="acerca">
                     <li>Acerca de </li>
-                    <li><a href="nosotros.php">Nosotros/</a></li>
-                    <li><a href="aviso.php">Aviso Legañ</a></li>
+                    <li><a href="nosotros.php">Nosotros</a></li>
+                    <li><a href="aviso.php">Aviso Legal</a></li>
                     <li><a href="privacidad.php">recursos</a></li>
                 </ul>
             </footer>   
@@ -654,9 +657,6 @@
                 <meta http-equiv="refresh" content="1; url= alumnoFrontal.php">
             <?php
         }
-
-        
-
 
     ?>
 

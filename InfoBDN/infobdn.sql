@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-10-2022 a las 10:26:58
+-- Tiempo de generación: 14-10-2022 a las 09:20:19
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -65,9 +65,10 @@ CREATE TABLE `alumnos` (
 
 INSERT INTO `alumnos` (`ID`, `dni`, `nombre`, `apellido`, `mail`, `contrasena`, `activo`, `foto`) VALUES
 (1, 11111111, 'paquito', 'chocolatero', 'paco@choco.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/1-charles-manson.jpeg'),
-(6, 22222222, 'pedro', 'picapiedra', 'pedro@picapiedra', '827ccb0eea8a706c4c34a16891f84e7b', 1, ''),
-(7, 33333333, 'pablo', 'marmol', 'pablo@marmol.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, ''),
-(8, 44444444, 'vampirella', 'vampira', 'vampirella@vamp.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, '');
+(6, 22222222, 'pedro', 'picapiedra', 'pedro@picapiedra', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/6-arropero.jpg'),
+(7, 33333333, 'pablo', 'marmol', 'pablo@marmol.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/7-tedBundi.jpg'),
+(8, 44444444, 'vampirella', 'vampira', 'vampirella@vamp.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/8-pogo.jpg'),
+(9, 55555555, 'paty', 'notepases', 'paty@paty.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 'imagen/9-5fa447867b5d3.png');
 
 -- --------------------------------------------------------
 
@@ -124,7 +125,11 @@ INSERT INTO `matricula` (`idMatricula`, `idCurso`, `IdAlumno`, `Nota`) VALUES
 (6, 2, 6, 0),
 (7, 3, 8, 0),
 (8, 5, 7, 0),
-(9, 4, 7, 0);
+(9, 4, 7, 0),
+(10, 1, 9, 0),
+(11, 7, 9, 0),
+(13, 1, 6, 0),
+(14, 7, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -206,7 +211,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `alumnos`
 --
 ALTER TABLE `alumnos`
-  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `cursos`
@@ -218,7 +223,7 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `matricula`
 --
 ALTER TABLE `matricula`
-  MODIFY `idMatricula` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idMatricula` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `profesores`
